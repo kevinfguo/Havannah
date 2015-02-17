@@ -6,27 +6,7 @@
   <script>
   angular.module('myApp')
   .run(function(gameLogic) {
-  //"Manual testing" --- expected result is [true, true, false].
-    var board = gameLogic.setBoard();
-    board[0][0] = 'R';
-    var board2 = gameLogic.copyObject(board);
-    board2[0][1] = 'B';   
-  console.log(
-      [ // Check placing X in 0x0 from initial state.
-      gameLogic.isMoveOk({turnIndexBeforeMove: 0, stateBeforeMove: {}, 
-        move: [{setTurn: {turnIndex : 1}},
-      {set: {key: 'board', value: board}},
-      {set: {key: 'delta', value: {row: 0, col: 0}}}]}),
-      // Check placing O in 0x1 from previous state.   
-      gameLogic.isMoveOk({turnIndexBeforeMove: 1, 
-        stateBeforeMove: {board: board, delta: {row: 0, col: 0}}, 
-      move: [{setTurn: {turnIndex : 0}},
-      {set: {key: 'board', value: board2}},
-      {set: {key: 'delta', value: {row: 0, col: 1}}}]}),
-      // Checking an illegal move.
-     gameLogic. isMoveOk({turnIndexBeforeMove: 0, stateBeforeMove: {}, move: [{setTurn: {turnIndex : 0}}]})
-      ]);
-  
+
   });
   </script>
 </head>
