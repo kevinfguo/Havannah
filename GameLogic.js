@@ -22,7 +22,7 @@ angular.module('myApp', []).factory('gameLogic', function() {
 
 
 //the boundary of horizontal direction
-var horIndex = [[0, 8], [0, 9], [0, 10], [0, 11], [0, 12], [0, 13],[0,14],[0,15]
+var horIndex = [[0, 8], [0, 9], [0, 10], [0, 11], [0, 12], [0, 13],[0,14],[0,15],
   [1,15], [2, 15], [3, 15], [4, 15], [5, 15],[6,15],[7,15]];
 //the boundary of vertical direction
 var verIndex = [[0, 8], [0, 9], [0, 10], [0, 11], [0, 12],[0,13],[0,14],[0,15],
@@ -78,6 +78,7 @@ function copyObject(object) {
     } else {
       // Game continues. Now it's the opponent's turn (the turn switches from 0 to 1 and 1 to 0).
       firstOperation = {setTurn: {turnIndex: 1 - turnIndexBeforeMove}};
+console.log(firstOperation);
     }
     return [firstOperation,
          {set: {key: 'board', value: boardAfterMove}},
@@ -90,6 +91,7 @@ function copyObject(object) {
       for(i=0; i<15; ++i){
         board[i] = new Array(14);
         for(j=horIndex[i][0]; j<horIndex[i][1]; ++j){
+   //     	console.log(i,j);
           board[i][j] = '';
         }
       }
@@ -106,23 +108,28 @@ function copyObject(object) {
 	      var col = deltaValue.col;
 	      var board = stateBeforeMove.board;
 	      var expectedMove = createMove(board, row, col, turnIndexBeforeMove);
-	      if (!isEqual(move, expectedMove)) {
-	          return false;
-	        }
-	        if(row<0 || row > 10) return false;
+	    
+	        if(row<0 || row > 15) return false;
 	        if(horIndex[row][0] > col || horIndex[row][1] <= col){
+	        //	  console.log("something");
 	          return false;
 	        } 
+	        if (!isEqual(move, expectedMove)) {
+		    	 // console.log(expectedMove, "move not equal to exp move");
+		          return false;
+		        }
 	      } catch (e) {
 	        // if there are any exceptions then the move is illegal
+	    	//  console.log("exception");
 	        return false;
 	      }
+	      //console.log(expectedMove);
 	      return true;
 	    }
 	    
   /**still need to implement**/
   function getWinner(board) { 
-  	return false;
+  	return '';
   }//Done
   
   /**
@@ -152,6 +159,8 @@ function copyObject(object) {
       setBoard: setBoard,
       createMove: createMove,
       isMoveOk: isMoveOk,
+      copyObject: copyObject,
+      isEqual: isEqual,
       isTie : isTie
   };
  
