@@ -25,14 +25,24 @@ angular.module('myApp', []).factory('gameLogic', function() {
 var horIndex = [[0, 8], [0, 9], [0, 10], [0, 11], [0, 12], [0, 13],[0,14],[0,15],
   [1,15], [2, 15], [3, 15], [4, 15], [5, 15],[6,15],[7,15]];
 //the boundary of vertical direction
-var verIndex = [[0, 8], [0, 9], [0, 10], [0, 11], [0, 12],[0,13],[0,14],[0,15],
-  [1, 15], [2, 15], [3, 15], [4, 15], [5, 15],[6,15],[7,15],[8,15]];
+/*var verIndex = [[0, 8], [0, 9], [0, 10], [0, 11], [0, 12],[0,13],[0,14],[0,15],
+  [1, 15], [2, 15], [3, 15], [4, 15], [5, 15],[6,15],[7,15]];*/
 //the boundary of diagonal direction
 // starting point from NW side, end at row==10 or col==9
-var tilIndex = [[0, 4], [0, 3], [0, 2], [0, 1], [0, 0], [1, 0],
-  [2, 0], [3, 0], [4, 0], [5, 0]];
+/*var tilIndex = [[0, 4], [0, 3], [0, 2], [0, 1], [0, 0], [1, 0],
+  [2, 0], [3, 0], [4, 0], [5, 0]];*/
+var edgeCells = [["0", "1"], ["0", "2"], ["0", "3"], ["0", "4"], ["0", "5"], ["0", "6"],
+                 ["1", "8"], ["2", "9"],["3", "10"], ["4","11"], ["5","12"], ["6","13"],
+                 ["8", "14"], ["9", "14"],["10", "14"], ["11","14"], ["12","14"], ["13","14"],
+                 ["14", "8"], ["14", "9"],["14", "10"], ["14","11"], ["14","12"], ["14","13"],
+                 ["8", "1"], ["9", "2"],["10", "3"], ["11","4"], ["12","5"], ["13","6"],
+                 ["1", "14"], ["2", "14"],["3", "14"], ["4","14"], ["5","14"], ["6","14"]];
 
-
+var cornerCells=[["0","0"],["0","7"],["7","14"],["14","14"],["14","7"],["7","0"]];
+/*
+var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15],
+                [0, 1], [1, 2], [0, 3], [0, 4],[0,5],[0,6],[0,7]];
+*/
 'use strict';
 function isEqual(object1, object2) {
   return JSON.stringify(object1) === JSON.stringify(object2);
@@ -69,7 +79,7 @@ function copyObject(object) {
     // first one should be Red
     boardAfterMove[row][col] = turnIndexBeforeMove === 0 ? 'R' : 'B';
    
-    var winner = getWinner(boardAfterMove);
+    var winner = getWinner(boardAfterMove,row,col,turnIndexBeforeMove);
     var firstOperation;
     if (winner !== '' || isTie(boardAfterMove)) {
       // Game over.
@@ -91,7 +101,7 @@ console.log(firstOperation);
       for(i=0; i<15; ++i){
         board[i] = new Array(14);
         for(j=horIndex[i][0]; j<horIndex[i][1]; ++j){
-   //     	console.log(i,j);
+        //	console.log(i,j);
           board[i][j] = '';
         }
       }
@@ -127,12 +137,171 @@ console.log(firstOperation);
 	      return true;
 	    }
 	    
-  /**still need to implement**/
-  function getWinner(board) { 
-  	return '';
+  /*
+	Checks for a win by connecting any two of the six corner cells of the board
+*/
+function getBridgeWin(board,row,col) {
+ var path = getConnectedPath(board,row,col);
+var count=0;
+//console.log(path);
+ //var path_cell = Object.keys(path);
+ for(var index in path){
+ 		//var cell = path[index];
+ 	 //   console.log(cell);
+ 	 //  console.log(index);
+ 		var row_col = index.split(',');
+ 	//	console.log(row_col);
+ 		 for(k=0; k<7; k++){
+ 		if(isEqual(row_col,cornerCells[k])) {
+ 	        count ++;
+ 	    
+ 			}
+ 	}
+ }
+ //console.log(count);
+ 		 if(count==2) {
+ 			return true;
+ 		 }
+ 		 return false;
+ }
+ 
+/*
+Checks for a win by connecting any three edges of the board
+*/
+function getForkWin(board,row,col) {
+ var path = getConnectedPath(board,row,col);
+var count=0;
+//console.log(path);
+// var path_cell = Object.keys(path);
+// console.log(path_cell);
+ for(var index in path){
+ 		//var cell = path[index];
+ 	  //  console.log(cell);
+ 	 //  console.log(index);
+ 		var row_col = index.split(',');
+ 	//	console.log(row_col);
+ 		 for(k=0; k<36; k++){
+ 		if(isEqual(row_col,edgeCells[k])) {
+ 	        count ++;
+ 	  //  console.log("cell",row_col);
+ 			}
+ 	}
+ }
+// console.log(count);
+ 		 if(count==3) {
+ 			return true;
+ 		 }
+ 		 return false;
+ }
+
+/*
+Checks for a win by connecting  a loop around one or more cells
+*/
+function getRingWin(board,row,col) {
+ var path = getConnectedPath(board,row,col);
+ var neighbors= getNeighborsWithSameColor(board,row,col)
+
+//console.log(path);
+//console.log(neighbors);
+ //var path_cell = Object.keys(path);
+ for(var index in path){
+ 	//	var cell = path[index];
+ 	  //  console.log(cell);
+ 	 //  console.log(index);
+ 	//	var row_col = index.split(',');
+ 	//	console.log(row_col);
+ 		 for(nbr_cell in neighbors){
+ 			
+ 		if(isEqual(path[index],neighbors[nbr_cell])) {
+ 	   //  console.log("cell",neighbors[nbr_cell]);
+ 	   	  return true;
+ 			}
+ 	}
+ }
+ 		 return false;
+ }
+
+
+  function getConnectedPath(board,row,col) { 
+	  
+	   	var queue = [];
+	  	queue.push([row,col]);
+	  	var came_from = [];
+	  	came_from[[row,col]]=[[0],[0]];
+
+	  	//Perform search in the queue for finding a path
+	  	while (queue.length>0) {
+	  		var current = queue.shift();
+	  		//console.log("current",current);
+	  		var cells = getNeighborsWithSameColor(board,current[0],current[1]);
+	  		//console.log("NeighborsWithSameColor",cells);
+	  		for (var next in cells) {
+	  			//console.log(next,cells[next]);
+	  		 	if(cells[next] in came_from == false)
+	  			{
+	  				queue.push(cells[next]);
+	  				came_from[cells[next]] = cells[next];
+	  				//console.log("came_from",came_from[cells[next]]);
+	  			}
+	  		 	
+	  		}
+	  	}
+	  	
+	  	return came_from;
+  	
   }//Done
   
-  /**
+  /*
+	Gets the cells adjacent to a given cell with the same color
+	Possible adjacent x for cell y. Here (1,y,6) (2,4) and (3,5) belong to a particular column.
+		1 		2
+		
+	3 		y 		4
+	
+		5 		6
+*/
+function getNeighborsWithSameColor(board,row,col){
+	var cells = [];
+	if(isInsideBoard(row-1,col) && board[row-1][col]!='' && (board[row-1][col] === board[row][col])) {
+		cells.push([row-1,col]);
+	}	
+	if(isInsideBoard(row-1,col-1) && board[row-1][col-1]!='' && (board[row-1][col-1] === board[row][col])) {
+		cells.push([row-1,col-1]);
+	}
+	if(isInsideBoard(row,col-1) && board[row][col-1]!='' && (board[row][col-1] == board[row][col])) {
+		cells.push([row,col-1]);
+	}
+	if(isInsideBoard(row,col+1) && board[row][col+1]!='' && (board[row][col+1] == board[row][col])) {
+		cells.push([row,col+1]);
+	}
+	
+	if(isInsideBoard(row+1,col+1) && board[row+1][col+1]!='' && (board[row+1][col+1] == board[row][col])) {
+		cells.push([row+1,col+1]);
+	}
+	if(isInsideBoard(row+1,col) && board[row+1][col]!='' && (board[row+1][col] == board[row][col])) {
+		cells.push([row+1,col]);
+	}
+	return cells;
+}
+
+  
+
+/*
+	Check whether the row or column indexed is valid by checking if it is inside the board
+*/
+function isInsideBoard(row, col){
+
+	if(row>-1 && row<15 && col>-1 && col<15) {
+		if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
+			//console.log(col,(horIndex[row][0]-1));	
+			return true;
+		}
+	}
+	
+return false;
+}
+
+/**
    * Returns all the possible moves for the given board and turnIndexBeforeMove.
    * Returns an empty array if the game is over.
    */
@@ -161,7 +330,13 @@ console.log(firstOperation);
       isMoveOk: isMoveOk,
       copyObject: copyObject,
       isEqual: isEqual,
-      isTie : isTie
+      isTie : isTie,
+      isInsideBoard : isInsideBoard,
+      getConnectedPath : getConnectedPath,
+      getNeighborsWithSameColor : getNeighborsWithSameColor,
+      getBridgeWin : getBridgeWin,
+      getForkWin : getForkWin,
+      getRingWin : getRingWin
   };
  
 });
