@@ -65,49 +65,7 @@ describe("In Havannah", function() {
 				 ])
 	});
 
-	/*
-	it("cannot move after the game is over", function() {
-		var board3=gameLogic.setBoard();
-		 for(i=0; i<7; ++i) {
-			    board3[0][i]='R';
-			    if(i<6) {
-			    board3[1][6]='B';
-		 }
-			   }
-
-
-		 var nextBoard = _gameLogic.copyObject(board3);
-			nextBoard[0][7] = 'R';
-		expectIllegalMove(0,
-		{board:board, delta: {row: 1, col: 6}},
-		[{setTurn: {turnIndex : 1}},
-		{set: {key: 'board', value:
-		nextBoard}},
-		{set: {key: 'delta', value: {row: 0, col: 7}}}]);
-		});
-
-
-	it("R gets a Bridge Win", function() {
-		var board3=_gameLogic.setBoard();
-		 for(i=0; i<7; ++i) {
-			    board3[0][i]='R';
-			    if(i<6) {
-			    board3[1][i]='B';
-		 }
-			   }
-
-
-		 var nextBoard = _gameLogic.copyObject(board3);
-			nextBoard[0][7] = 'R';
-		expectMoveOk(0,
-		{board:board3, delta: {row: 1, col: 5}},
-		[{setTurn: {turnIndex : 1}},
-		{set: {key: 'board', value:
-		nextBoard}},
-		{set: {key: 'delta', value: {row: 0, col: 7}}}]);
-		});
-	 */
-
+	
 	it(" R gets a Win by forming a bridge", function() {
 		var board3=_gameLogic.setBoard();
 		for(i=0; i<8; ++i) {
@@ -169,25 +127,7 @@ describe("In Havannah", function() {
 		expect(_gameLogic.getWinner(board,0,7)).toBe('');
 	});
 
-	/*
-	it("Check createMove logic by checking if B gets a Win by forming a Bridge", function() {
-		var board3=_gameLogic.setBoard();
-		for(i=0; i<7; ++i) {
-			board3[0][i]='B';
-		}
-		var nextBoard = _gameLogic.copyObject(board3);
-		nextBoard[0][7] = 'B';
-		expect(_gameLogic.isMoveOk({turnIndexBeforeMove: 1, 
-	        stateBeforeMove: {endMatch: {endMatchScores:[0,1]},board: board3, delta: {row: 0, col: 0}}, 
-	      move: [{setTurn: {turnIndex : 0}},
-	      {set: {key: 'board', value: nextBoard}},
-	      {set: {key: 'delta', value: {row: 0, col: 1}}}]})).toBe(false);
-		//expect(_gameLogic.createMove(board3,0,7,1)).toBe([{endMatch: {endMatchScores:[0,1]}}, {set: {key: 'board', value: nextBoard}},
-//	      {set: {key: 'delta', value: {row: 0, col: 7}}}]);
-
-			});
-			
-			*/
+	
 	
 	it("Check isTie logic with tie due to full board", function() {
 
@@ -218,28 +158,7 @@ describe("In Havannah", function() {
 		expect(_gameLogic.isTie(board5)).toBe(false);
 	});
 	
-	/*
-	it("9.1:Check isMoveOk logic with Tie ", function() {
 
-		var horIndex = [[0, 8], [0, 9], [0, 10], [0, 11], [0, 12], [0, 13],[0,14],[0,15],
-		                [1,15], [2, 15], [3, 15], [4, 15], [5, 15],[6,15],[7,15]];
-		var board5=_gameLogic.setBoard();
-		for(i=0; i<15; ++i){
-			for(j=horIndex[i][0]; j<horIndex[i][1]; ++j){
-				board5[i][j] = 'R';
-			}
-		}
-		board5[14][13]='B';
-		var nextBoard = _gameLogic.copyObject(board5);
-		nextBoard[14][14] = 'R';
-		
-		expectMoveOk(0,{board: board5, delta: {row: 14, col: 13}}, 
-				[{setTurn: {turnIndex : 1}},
-				 {set: {key: 'board', value: nextBoard}},
-				 {set: {key: 'delta', value: {row: 14, col: 14}}}
-				 ])
-	});
-*/
 	it("test Illegal move outside board", function() {
 		var board=_gameLogic.setBoard();
 		board[0][0] = 'R';
