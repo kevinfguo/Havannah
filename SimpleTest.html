@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.js"></script>
+<script src="GameLogic.js"></script>
+<script>
+  angular.module('myApp')
+  .run(function(gameLogic) {
+  //"Manual testing" --- expected result is [true, true, false].
+    var board = gameLogic.setBoard();
+    board[0][0] = 'R';
+    var board2 = gameLogic.copyObject(board);
+    board2[0][1] = 'B';   
+    var board3=gameLogic.setBoard();
+    var board4=gameLogic.setBoard();
+    var board5=gameLogic.setBoard();
+    var board6=gameLogic.setBoard();
+    
+   for(i=0; i<8; ++i) {
+    board3[0][i]='R';
+   }
+   
+   for(i=0; i<9; ++i) {
+      board4[i][1]='B';
+     }
+   for(i=1; i<15; ++i) {
+      board4[8][i]='B';
+     }
+   
+   for(i=1; i<4; ++i) {
+     for(j=1; j<4; ++j) {
+      board5[i][j]='R';
+     }
+   }
+   board5[2][2]='';
+   
+   for(i=0; i<7; ++i) {
+	    board6[0][i]='R';
+	   }
+  console.log(
+      [ // Check placing R in 0x0 from initial state.
+      gameLogic.isMoveOk({turnIndexBeforeMove: 0, stateBeforeMove: {}, 
+        move: [{setTurn: {turnIndex : 1}},
+      {set: {key: 'board', value: board}},
+      {set: {key: 'delta', value: {row: 0, col: 0}}}]}),
+      // Check placing B in 0x1 from previous state.   
+      gameLogic.isMoveOk({turnIndexBeforeMove: 1, 
+        stateBeforeMove: {board: board, delta: {row: 0, col: 0}}, 
+      move: [{setTurn: {turnIndex : 0}},
+      {set: {key: 'board', value: board2}},
+      {set: {key: 'delta', value: {row: 0, col: 1}}}]}),
+      // Checking an illegal move.
+     gameLogic. isMoveOk({turnIndexBeforeMove: 0, stateBeforeMove: {}, move: [{setTurn: {turnIndex : 0}}]}),
+     gameLogic.isInsideBoard(0,0),
+    gameLogic.getConnectedPath(board3,0,7),
+    gameLogic.getNeighborsWithSameColor(board3,0,7),
+    gameLogic.isInsideBoard(5,14),
+    gameLogic.getBridgeWin(board3,0,7),
+    gameLogic.getForkWin(board4,8,14),
+    gameLogic.getRingWin(board5,1,1),
+    gameLogic.getWinner(board5,1,1),
+    gameLogic.createMove(board6,0,7,0)
+      ]);
+  
+  
+  
+  });
+  </script>
+</head>
+<body>Testing gameLogic with a simple HTML.
+</body>
+</html>
