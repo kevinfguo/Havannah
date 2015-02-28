@@ -43,7 +43,7 @@ describe("In Havannah", function() {
 	it(" placing B in 0x1 from initial state is legal", function() {
 		var board = setBoard();
 		board[0][0] = 'R';
-		var nextBoard = _gameLogic.copyObject(board);
+		var nextBoard = angular.copy(board);
 		nextBoard[0][1] = 'B';
 		expectMoveOk(1,{board: board, delta: {row: 0, col: 0}}, 
 				[{setTurn: {turnIndex : 0}},
@@ -56,7 +56,7 @@ describe("In Havannah", function() {
 	it("placing an B in a non-empty position is illegal", function() {
 		var board = setBoard();
 		board[0][0] = 'R';
-		var nextBoard = _gameLogic.copyObject(board);
+		var nextBoard = angular.copy(board);
 		nextBoard[0][0] = 'B';
 		expectIllegalMove(1,{board: board, delta: {row: 0, col: 0}}, 
 				[{setTurn: {turnIndex : 0}},
@@ -162,7 +162,7 @@ describe("In Havannah", function() {
 	it("test Illegal move outside board on N-W side", function() {
 		var board=_gameLogic.setBoard();
 		board[0][0] = 'R';
-		var nextBoard = _gameLogic.copyObject(board);
+		var nextBoard = angular.copy(board);
 		nextBoard[1][14] = 'B';
 		expectIllegalMove(1,{board: board, delta: {row: 0, col: 0}}, 
 				[{setTurn: {turnIndex : 0}},
@@ -174,7 +174,7 @@ describe("In Havannah", function() {
 	it("test Illegal move outside board on S-Eside", function() {
 		var board=_gameLogic.setBoard();
 		board[0][0] = 'R';
-		var nextBoard = _gameLogic.copyObject(board);
+		var nextBoard = angular.copy(board);
 		nextBoard[14][1] = 'B';
 		expectIllegalMove(1,{board: board, delta: {row: 0, col: 0}}, 
 				[{setTurn: {turnIndex : 0}},
@@ -211,23 +211,30 @@ describe("In Havannah", function() {
 				 {set: {key: 'board', value: nextBoard}},
 				 {set: {key: 'delta', value: {row:1, col: 1}}}
 				 ])	});
-/*	
-	it("Check createMove logic by checking if B gets a Win by forming a Bridge", function() {
+	/*
+	iit("Check createMove logic by checking if B gets a Win by forming a Bridge", function() {
 		var board3=_gameLogic.setBoard();
 		for(i=0; i<7; ++i) {
 			board3[0][i]='B';
 		}
-		var nextBoard = _gameLogic.copyObject(board3);
+		var nextBoard = angular.copy(board3);
 		nextBoard[0][7] = 'B';
+		expectMoveOk(1,{board: board3, delta: {row: 0, col: 0}}, 
+				[{setTurn: {turnIndex : 1}},
+				 {set: {key: 'board', value: nextBoard}},
+				 {set: {key: 'delta', value: {row:0, col: 7}}}
+				 ])	
+		
 		expect(_gameLogic.isMoveOk({turnIndexBeforeMove: 1, 
 	        stateBeforeMove: {endMatch: {endMatchScores:[0,1]},board: board3, delta: {row: 0, col: 0}}, 
 	      move: [{setTurn: {turnIndex : 0}},
 	      {set: {key: 'board', value: nextBoard}},
-	      {set: {key: 'delta', value: {row: 0, col: 1}}}]})).toBe(false);
-		//expect(_gameLogic.createMove(board3,0,7,1)).toBe([{endMatch: {endMatchScores:[0,1]}}, {set: {key: 'board', value: nextBoard}},
-//	      {set: {key: 'delta', value: {row: 0, col: 7}}}]);
+	      {set: {key: 'delta', value: {row: 0, col: 7}}}]})).toBe(true);
+		expect(_gameLogic.createMove(board3,0,7,1)).toBe([{endMatch: {endMatchScores:[0,1]}}, {set: {key: 'board', value: nextBoard}},
+	      {set: {key: 'delta', value: {row: 0, col: 7}}}]);
 
 			});
-	*/
+*/
+	
 })
 

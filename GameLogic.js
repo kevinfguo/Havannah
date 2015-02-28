@@ -44,14 +44,14 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
                 [0, 1], [1, 2], [0, 3], [0, 4],[0,5],[0,6],[0,7]];
 	 */
 	'use strict';
-	function isEqual(object1, object2) {
+	/*	function isEqual(object1, object2) {
 		return JSON.stringify(object1) === JSON.stringify(object2);
 	}
 
 	function copyObject(object) {
 		return JSON.parse(JSON.stringify(object));
 	}
-
+	 */
 
 	/** Returns true if the game ended in a tie because there are no empty cells. */
 	function isTie(board) {
@@ -75,7 +75,7 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 		if (board[row][col] !== '') {
 			throw new Error("One can only make a move in an empty position!");
 		}
-		var boardAfterMove = copyObject(board);
+		var boardAfterMove = angular.copy(board);
 		// first one should be Red
 		boardAfterMove[row][col] = turnIndexBeforeMove === 0 ? 'R' : 'B';
 
@@ -95,23 +95,23 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 		        {set: {key: 'board', value: boardAfterMove}},
 		        {set: {key: 'delta', value: {row: row, col: col}}}];
 	}//done
-	
+
 	function getWinner(board,row,col,turnIndexBeforeMove) {
-		
-			if (getBridgeWin(board,row,col)==true || getForkWin(board,row,col)==true || getRingWin(board,row,col)==true){
-				if(board[row][col]=='B') {
-					return 'B';
-				}
-				else if(board[row][col]=='R') {
-					return 'R';
-				}
-				//console.log("something true");
+
+		if (getBridgeWin(board,row,col)==true || getForkWin(board,row,col)==true || getRingWin(board,row,col)==true){
+			if(board[row][col]=='B') {
+				return 'B';
 			}
-			
-				return '';
-			
+			else if(board[row][col]=='R') {
+				return 'R';
+			}
+			//console.log("something true");
+		}
+
+		return '';
+
 	}
-	
+
 	function setBoard(){
 		var i, j;
 		var board = new Array(14);
@@ -141,13 +141,18 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 				//	  console.log("something");
 				return false;
 			} 
+			
 			if (!angular.equals(move, expectedMove)) {
-				// console.log(expectedMove, "move not equal to exp move");
+				 console.log(expectedMove, "move not equal to exp move");
+				 console.log(move, "move ");
 				return false;
 			}
+			// console.log(expectedMove, "move not equal to exp move");
+		//	 console.log(move, "move ");
+
 		} catch (e) {
 			// if there are any exceptions then the move is illegal
-			//  console.log("exception");
+			  console.log(e);
 			return false;
 		}
 		//console.log(expectedMove);
@@ -169,7 +174,7 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 			var row_col = index.split(',');
 			//	console.log(row_col);
 			for(k=0; k<7; k++){
-				if(isEqual(row_col,cornerCells[k])) {
+				if(angular.equals(row_col,cornerCells[k])) {
 					count ++;
 
 				}
@@ -198,7 +203,7 @@ Checks for a win by connecting any three edges of the board
 			var row_col = index.split(',');
 			//	console.log(row_col);
 			for(k=0; k<36; k++){
-				if(isEqual(row_col,edgeCells[k])) {
+				if(angular.equals(row_col,edgeCells[k])) {
 					count ++;
 					//  console.log("cell",row_col);
 				}
@@ -217,21 +222,25 @@ Checks for a win by connecting  a loop around one or more cells
 	function getRingWin(board,row,col) {
 		var path = getConnectedPath(board,row,col);
 		var neighbors= getNeighborsWithSameColor(board,row,col)
-
-//		console.log(path);
+		var count=0;
+		//console.log(path);
 //		console.log(neighbors);
 		//var path_cell = Object.keys(path);
 		for(var index in path){
-			//	var cell = path[index];
-			//  console.log(cell);
-			//  console.log(index);
-			//	var row_col = index.split(',');
-			//	console.log(row_col);
-			for(nbr_cell in neighbors){
-
-				if(isEqual(path[index],neighbors[nbr_cell])) {
-					//  console.log("cell",neighbors[nbr_cell]);
-					return true;
+			count++;
+		}
+		if(count>5) {
+			for(var index in path){
+				//	var cell = path[index];
+				//  console.log(cell);
+				//  console.log(index);
+				//	var row_col = index.split(',');
+				//	console.log(row_col);
+				for(nbr_cell in neighbors){
+					if(angular.equals(path[index],neighbors[nbr_cell]) ) {
+						//  console.log("cell",neighbors[nbr_cell]);
+						return true;
+					}
 				}
 			}
 		}
@@ -244,7 +253,7 @@ Checks for a win by connecting  a loop around one or more cells
 		var queue = [];
 		queue.push([row,col]);
 		var came_from = [];
-		came_from[[row,col]]=[[0],[0]];
+		came_from[[row,col]]=[[row],[col]];
 
 		//Perform search in the queue for finding a path
 		while (queue.length>0) {
@@ -322,7 +331,7 @@ Checks for a win by connecting  a loop around one or more cells
 	 * commented out since we need not test this function for hW3
 	 * Returns all the possible moves for the given board and turnIndexBeforeMove.
 	 * Returns an empty array if the game is over.
-	 
+
 	function getPossibleMoves(board, turnIndexBeforeMove) {
 		var possibleMoves = [];
 		var i, j;
@@ -338,7 +347,7 @@ Checks for a win by connecting  a loop around one or more cells
 		return possibleMoves;
 	}
 
-*/
+	 */
 
 	return {
 
@@ -346,8 +355,6 @@ Checks for a win by connecting  a loop around one or more cells
 		setBoard: setBoard,
 		createMove: createMove,
 		isMoveOk: isMoveOk,
-		copyObject: copyObject,
-		isEqual: isEqual,
 		isTie : isTie,
 		isInsideBoard : isInsideBoard,
 		getConnectedPath : getConnectedPath,
