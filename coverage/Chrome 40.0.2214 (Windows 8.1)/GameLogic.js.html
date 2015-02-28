@@ -18,16 +18,16 @@
     <h1>Code coverage report for <span class="entity">./GameLogic.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">96.83% <small>(122 / 126)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">97.54% <small>(119 / 122)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">89.66% <small>(78 / 87)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">90.8% <small>(79 / 87)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">100% <small>(14 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(12 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">97.58% <small>(121 / 124)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">98.33% <small>(118 / 120)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -394,8 +394,7 @@
 357
 358
 359
-360
-361</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+360</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -441,12 +440,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">17</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1512</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -540,7 +540,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">3</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -548,7 +548,7 @@
 <span class="cline-any cline-yes">4</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -753,8 +753,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">angular.module('myApp', []).factory('gameLogic', function() {
 	/*
 	 * Grid representation:
@@ -801,14 +799,15 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
                 [0, 1], [1, 2], [0, 3], [0, 4],[0,5],[0,6],[0,7]];
 	 */
 	'use strict';
-	function isEqual(object1, object2) {
+	/*
+	function angular.equals(object1, object2) {
 		return JSON.stringify(object1) === JSON.stringify(object2);
 	}
 &nbsp;
-	function copyObject(object) {
+	function angular.copy(object) {
 		return JSON.parse(JSON.stringify(object));
 	}
-&nbsp;
+*/
 &nbsp;
 	/** Returns true if the game ended in a tie because there are no empty cells. */
 	function isTie(board) {
@@ -832,7 +831,7 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 		if (board[row][col] !== '') {
 			throw new Error("One can only make a move in an empty position!");
 		}
-		var boardAfterMove = copyObject(board);
+		var boardAfterMove = angular.copy(board);
 		// first one should be Red
 		boardAfterMove[row][col] = turnIndexBeforeMove === 0 ? 'R' : 'B';
 &nbsp;
@@ -898,7 +897,7 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 				//	  console.log("something");
 <span class="cstat-no" title="statement not covered" >				return false;</span>
 			} 
-			<span class="missing-if-branch" title="else path not taken" >E</span>if (!angular.equals(move, expectedMove)) {
+			if (!angular.equals(move, expectedMove)) {
 				// console.log(expectedMove, "move not equal to exp move");
 				return false;
 			}
@@ -908,7 +907,7 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 			return false;
 		}
 		//console.log(expectedMove);
-<span class="cstat-no" title="statement not covered" >		return true;</span>
+		return true;
 	}
 &nbsp;
 	/*
@@ -926,7 +925,7 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 			var row_col = index.split(',');
 			//	console.log(row_col);
 			for(k=0; k&lt;7; k++){
-				if(isEqual(row_col,cornerCells[k])) {
+				if(angular.equals(row_col,cornerCells[k])) {
 					count ++;
 &nbsp;
 				}
@@ -955,7 +954,7 @@ Checks for a win by connecting any three edges of the board
 			var row_col = index.split(',');
 			//	console.log(row_col);
 			for(k=0; k&lt;36; k++){
-				if(isEqual(row_col,edgeCells[k])) {
+				if(angular.equals(row_col,edgeCells[k])) {
 					count ++;
 					//  console.log("cell",row_col);
 				}
@@ -986,7 +985,7 @@ Checks for a win by connecting  a loop around one or more cells
 			//	console.log(row_col);
 			for(nbr_cell in neighbors){
 &nbsp;
-				if(isEqual(path[index],neighbors[nbr_cell])) {
+				if(angular.equals(path[index],neighbors[nbr_cell])) {
 					//  console.log("cell",neighbors[nbr_cell]);
 					return true;
 				}
@@ -1103,8 +1102,6 @@ Checks for a win by connecting  a loop around one or more cells
 		setBoard: setBoard,
 		createMove: createMove,
 		isMoveOk: isMoveOk,
-		copyObject: copyObject,
-		isEqual: isEqual,
 		isTie : isTie,
 		isInsideBoard : isInsideBoard,
 		getConnectedPath : getConnectedPath,
@@ -1120,7 +1117,7 @@ Checks for a win by connecting  a loop around one or more cells
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Feb 28 2015 15:56:07 GMT-0500 (Eastern Standard Time)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Feb 28 2015 18:35:11 GMT-0500 (Eastern Standard Time)</div>
 </div>
 
 <script src="../prettify.js"></script>

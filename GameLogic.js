@@ -44,14 +44,15 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
                 [0, 1], [1, 2], [0, 3], [0, 4],[0,5],[0,6],[0,7]];
 	 */
 	'use strict';
-	function isEqual(object1, object2) {
+	/*
+	function angular.equals(object1, object2) {
 		return JSON.stringify(object1) === JSON.stringify(object2);
 	}
 
-	function copyObject(object) {
+	function angular.copy(object) {
 		return JSON.parse(JSON.stringify(object));
 	}
-
+*/
 
 	/** Returns true if the game ended in a tie because there are no empty cells. */
 	function isTie(board) {
@@ -75,7 +76,7 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 		if (board[row][col] !== '') {
 			throw new Error("One can only make a move in an empty position!");
 		}
-		var boardAfterMove = copyObject(board);
+		var boardAfterMove = angular.copy(board);
 		// first one should be Red
 		boardAfterMove[row][col] = turnIndexBeforeMove === 0 ? 'R' : 'B';
 
@@ -169,7 +170,7 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 			var row_col = index.split(',');
 			//	console.log(row_col);
 			for(k=0; k<7; k++){
-				if(isEqual(row_col,cornerCells[k])) {
+				if(angular.equals(row_col,cornerCells[k])) {
 					count ++;
 
 				}
@@ -198,7 +199,7 @@ Checks for a win by connecting any three edges of the board
 			var row_col = index.split(',');
 			//	console.log(row_col);
 			for(k=0; k<36; k++){
-				if(isEqual(row_col,edgeCells[k])) {
+				if(angular.equals(row_col,edgeCells[k])) {
 					count ++;
 					//  console.log("cell",row_col);
 				}
@@ -229,7 +230,7 @@ Checks for a win by connecting  a loop around one or more cells
 			//	console.log(row_col);
 			for(nbr_cell in neighbors){
 
-				if(isEqual(path[index],neighbors[nbr_cell])) {
+				if(angular.equals(path[index],neighbors[nbr_cell])) {
 					//  console.log("cell",neighbors[nbr_cell]);
 					return true;
 				}
@@ -346,8 +347,6 @@ Checks for a win by connecting  a loop around one or more cells
 		setBoard: setBoard,
 		createMove: createMove,
 		isMoveOk: isMoveOk,
-		copyObject: copyObject,
-		isEqual: isEqual,
 		isTie : isTie,
 		isInsideBoard : isInsideBoard,
 		getConnectedPath : getConnectedPath,
