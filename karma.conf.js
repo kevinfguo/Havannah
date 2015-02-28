@@ -29,13 +29,24 @@ module.exports = function(config){
 
     frameworks: ['jasmine'],
 
+<<<<<<< HEAD
     browsers : ['Chrome'],
 
     plugins : [
             'karma-chrome-launcher',
+=======
+    browsers : ['Firefox'],
+
+    plugins : [
+            'karma-firefox-launcher',
+>>>>>>> b832e7896dc8e327d5d27ca12880454a513dbcc1
             'karma-jasmine',
             'karma-coverage'
             ]
 
   });
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> b832e7896dc8e327d5d27ca12880454a513dbcc1
