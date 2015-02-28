@@ -31,11 +31,7 @@ describe("In Havannah", function() {
 	}
 
 	//first move
-<<<<<<< HEAD
 	it(" 1:placing R in 0x0 from initial state is legal", function() {
-=======
-	it(" placing R in 0x0 from initial state is legal", function() {
->>>>>>> b832e7896dc8e327d5d27ca12880454a513dbcc1
 		var board = _gameLogic.setBoard();
 		board[0][0] = 'R';
 		expectMoveOk(0,{},[{setTurn: {turnIndex : 1}},
@@ -47,11 +43,7 @@ describe("In Havannah", function() {
 	it(" placing B in 0x1 from initial state is legal", function() {
 		var board = setBoard();
 		board[0][0] = 'R';
-<<<<<<< HEAD
 		var nextBoard = angular.copy(board);
-=======
-		var nextBoard = _gameLogic.copyObject(board);
->>>>>>> b832e7896dc8e327d5d27ca12880454a513dbcc1
 		nextBoard[0][1] = 'B';
 		expectMoveOk(1,{board: board, delta: {row: 0, col: 0}}, 
 				[{setTurn: {turnIndex : 0}},
@@ -64,11 +56,7 @@ describe("In Havannah", function() {
 	it("placing an B in a non-empty position is illegal", function() {
 		var board = setBoard();
 		board[0][0] = 'R';
-<<<<<<< HEAD
 		var nextBoard = angular.copy(board);
-=======
-		var nextBoard = _gameLogic.copyObject(board);
->>>>>>> b832e7896dc8e327d5d27ca12880454a513dbcc1
 		nextBoard[0][0] = 'B';
 		expectIllegalMove(1,{board: board, delta: {row: 0, col: 0}}, 
 				[{setTurn: {turnIndex : 0}},
@@ -171,17 +159,10 @@ describe("In Havannah", function() {
 	});
 	
 
-<<<<<<< HEAD
 	it("test Illegal move outside board on N-W side", function() {
 		var board=_gameLogic.setBoard();
 		board[0][0] = 'R';
 		var nextBoard = angular.copy(board);
-=======
-	it("test Illegal move outside board", function() {
-		var board=_gameLogic.setBoard();
-		board[0][0] = 'R';
-		var nextBoard = _gameLogic.copyObject(board);
->>>>>>> b832e7896dc8e327d5d27ca12880454a513dbcc1
 		nextBoard[1][14] = 'B';
 		expectIllegalMove(1,{board: board, delta: {row: 0, col: 0}}, 
 				[{setTurn: {turnIndex : 0}},
@@ -190,7 +171,6 @@ describe("In Havannah", function() {
 				 ])
 	});
 
-<<<<<<< HEAD
 	it("test Illegal move outside board on S-Eside", function() {
 		var board=_gameLogic.setBoard();
 		board[0][0] = 'R';
@@ -205,8 +185,6 @@ describe("In Havannah", function() {
 	
 	
 	
-=======
->>>>>>> b832e7896dc8e327d5d27ca12880454a513dbcc1
 	it("null move is illegal", function() {
 		expectIllegalMove(0, {}, null);
 	});
@@ -226,18 +204,13 @@ describe("In Havannah", function() {
 	it("placing R in 0x0  abd B in 1x1 but setTurn to yourself is illegal(B sets turn to itself again)", function() {
 		var board=_gameLogic.setBoard();
 		board[0][0] = 'R';
-<<<<<<< HEAD
 		var nextBoard = angular.copy(board);
-=======
-		var nextBoard = _gameLogic.copyObject(board);
->>>>>>> b832e7896dc8e327d5d27ca12880454a513dbcc1
 		nextBoard[1][1] = 'B';
 		expectIllegalMove(1,{board: board, delta: {row: 0, col: 0}}, 
 				[{setTurn: {turnIndex : 1}},
 				 {set: {key: 'board', value: nextBoard}},
 				 {set: {key: 'delta', value: {row:1, col: 1}}}
 				 ])	});
-<<<<<<< HEAD
 	/*
 	iit("Check createMove logic by checking if B gets a Win by forming a Bridge", function() {
 		var board3=_gameLogic.setBoard();
@@ -263,7 +236,5 @@ describe("In Havannah", function() {
 			});
 */
 	
-=======
->>>>>>> b832e7896dc8e327d5d27ca12880454a513dbcc1
 })
 
