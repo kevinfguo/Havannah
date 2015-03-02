@@ -63,6 +63,7 @@
 		
 
 	}
+	board_tie1[7][0]='B';
 	board_tie1[0][0]='';
 	board_tie1[0][4]='';
 	board_tie1[0][4]='B';
@@ -76,10 +77,12 @@
 	for(i=1; i<8; ++i) {
 		board44[0][i]='B';
 	}
-	board44[0][1]='';
+	board44[0][0]='';
+	board44[1][1]='B';
+	board44[0][4]='';
 	board44[14][14]='R';
 	var nextBoard = angular.copy(board44);
-	nextBoard[0][1] = 'B';
+	nextBoard[0][4] = 'B';
   console.log(
       [ // Check placing R in 0x0 from initial state.
  /*     gameLogic.isMoveOk({turnIndexBeforeMove: 0, stateBeforeMove: {}, 
@@ -103,18 +106,18 @@
     gameLogic.getRingWin(board5,1,1),
     gameLogic.getWinner(board5,1,1),
     gameLogic.createMove(board6,0,7,0),
-    
+ */  
     gameLogic.isMoveOk({turnIndexBeforeMove: 0, 
         stateBeforeMove: {board: board_tie1, delta: {row: 0, col: 4}}, 
       move: [{endMatch: {endMatchScores: [0, 0]}},
       {set: {key: 'board', value: board_tie2}},
       {set: {key: 'delta', value: {row: 0, col: 0}}}]}),
-  */    
+      
       gameLogic.isMoveOk({turnIndexBeforeMove: 1, 
           stateBeforeMove: {board: board44, delta: {row: 14, col: 14}}, 
         move: [{setTurn: {turnIndex : 0}},
         {set: {key: 'board', value: nextBoard}},
-        {set: {key: 'delta', value: {row: 0, col: 1}}}]}),
+        {set: {key: 'delta', value: {row: 0, col: 4}}}]}),
         
   ]);
   

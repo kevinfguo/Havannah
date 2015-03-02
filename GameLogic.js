@@ -31,12 +31,12 @@ angular.module('myApp', []).factory('gameLogic', function() {
 //	starting point from NW side, end at row==10 or col==9
 	/*var tilIndex = [[0, 4], [0, 3], [0, 2], [0, 1], [0, 0], [1, 0],
   [2, 0], [3, 0], [4, 0], [5, 0]];*/
-	var edgeCells = [["0", "1"], ["0", "2"], ["0", "3"], ["0", "4"], ["0", "5"], ["0", "6"],
-	                 ["1", "8"], ["2", "9"],["3", "10"], ["4","11"], ["5","12"], ["6","13"],
-	                 ["8", "14"], ["9", "14"],["10", "14"], ["11","14"], ["12","14"], ["13","14"],
-	                 ["14", "8"], ["14", "9"],["14", "10"], ["14","11"], ["14","12"], ["14","13"],
-	                 ["8", "1"], ["9", "2"],["10", "3"], ["11","4"], ["12","5"], ["13","6"],
-	                 ["1", "14"], ["2", "14"],["3", "14"], ["4","14"], ["5","14"], ["6","14"]];
+	var edge1 = [["0", "1"], ["0", "2"], ["0", "3"], ["0", "4"], ["0", "5"], ["0", "6"]];
+	var edge2 = [["1", "8"], ["2", "9"],["3", "10"], ["4","11"], ["5","12"], ["6","13"]];
+	var edge3 = [["8", "14"], ["9", "14"],["10", "14"], ["11","14"], ["12","14"], ["13","14"]];
+	var edge4 = [["14", "8"], ["14", "9"],["14", "10"], ["14","11"], ["14","12"], ["14","13"]];
+	var edge5 = [["8", "1"], ["9", "2"],["10", "3"], ["11","4"], ["12","5"], ["13","6"]];
+	var edge6 = [["1", "14"], ["2", "14"],["3", "14"], ["4","14"], ["5","14"], ["6","14"]];
 
 	var cornerCells=[["0","0"],["0","7"],["7","14"],["14","14"],["14","7"],["7","0"]];
 	/*
@@ -173,7 +173,7 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 			}
 		}
 		//console.log(count);
-		if(count==2) {
+		if(count>1) {
 			return true;
 		}
 		return false;
@@ -184,7 +184,13 @@ Checks for a win by connecting any three edges of the board
 	 */
 	function getForkWin(board,row,col) {
 		var path = getConnectedPath(board,row,col);
-		var count=0;
+		var count1=0;
+		var count2=0;
+		var count3=0;
+		var count4=0;
+		var count5=0;
+		var count6=0;
+		var total_count=0;
 //		console.log(path);
 //		var path_cell = Object.keys(path);
 //		console.log(path_cell);
@@ -194,15 +200,36 @@ Checks for a win by connecting any three edges of the board
 			//  console.log(index);
 			var row_col = index.split(',');
 			//	console.log(row_col);
-			for(k=0; k<36; k++){
-				if(angular.equals(row_col,edgeCells[k])) {
-					count ++;
+			for(k=0; k<6; k++){
+				if(angular.equals(row_col,edge1[k])) {
+					count1 =1;
 					//  console.log("cell",row_col);
+				}
+
+				if(angular.equals(row_col,edge2[k])) {
+					count2 =1;
+				}
+
+				if(angular.equals(row_col,edge3[k])) {
+					count3 =1;
+				}
+
+				if(angular.equals(row_col,edge4[k])) {
+					count4 =1;
+				}
+
+				if(angular.equals(row_col,edge5[k])) {
+					count5 =1;
+				}
+
+				if(angular.equals(row_col,edge6[k])) {
+					count6 =1;
 				}
 			}
 		}
+		total_count=count1+count2+count3+count4+count5+count6;
 //		console.log(count);
-		if(count==3) {
+		if(total_count==3) {
 			return true;
 		}
 		return false;
@@ -237,7 +264,7 @@ Checks for a win by connecting  a loop around one or more cells
 						//  console.log("cell",neighbors[nbr_cell]);
 						nbr++;
 						if(nbr==2)
-						return true;
+							return true;
 					}
 				}
 			}

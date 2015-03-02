@@ -157,7 +157,8 @@ describe("In Havannah", function() {
 							}
 				
 
-			}
+			
+				board_tie1[7][0]='B';}
 			board_tie1[0][0]='';
 			board_tie1[0][4]='';
 			board_tie1[0][4]='B';
