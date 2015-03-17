@@ -106,7 +106,7 @@
     gameLogic.getRingWin(board5,1,1),
     gameLogic.getWinner(board5,1,1),
     gameLogic.createMove(board6,0,7,0),
- */  
+   
     gameLogic.isMoveOk({turnIndexBeforeMove: 0, 
         stateBeforeMove: {board: board_tie1, delta: {row: 0, col: 4}}, 
       move: [{endMatch: {endMatchScores: [0, 0]}},
@@ -118,6 +118,8 @@
         move: [{setTurn: {turnIndex : 0}},
         {set: {key: 'board', value: nextBoard}},
         {set: {key: 'delta', value: {row: 0, col: 4}}}]}),
+        */
+        gameLogic.getConnectedPathForRing(board5,1,1)
         
   ]);
   

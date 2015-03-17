@@ -270,6 +270,36 @@ Checks for a win by connecting  a loop around one or more cells
 			}
 		}
 		return false;
+		
+	}
+		function getConnectedPathForRing(board,row,col) {	
+		var queue = [];
+		queue.push([row,col]);
+		var came_from = [];
+		came_from[[row,col]]=[[-1],[-1]];
+
+		//Perform search in the queue for finding a path
+		while (queue.length>0) {
+			var current = queue.shift();
+			//console.log("current",current);
+			var cells = getNeighborsWithSameColor(board,current[0],current[1]);
+			//console.log("NeighborsWithSameColor",cells);
+			for (var next in cells) {
+				//console.log(next,cells[next]);
+				if(cells[next] in came_from == false)
+				{
+					queue.push(cells[next]);
+					came_from[cells[next]] = cells[next];
+					//console.log("came_from",came_from[cells[next]]);
+				}
+				else if(came_from[cells[next]]===[[-1],[-1]]){
+					queue.push(cells[next]);
+came_from[cells[next]] = cells[next];
+
+					}
+			}
+		}
+		return came_from;
 	}
 
 
@@ -278,7 +308,7 @@ Checks for a win by connecting  a loop around one or more cells
 		var queue = [];
 		queue.push([row,col]);
 		var came_from = [];
-		came_from[[row,col]]=[[0],[0]];
+		came_from[[row,col]]=[[row],[col]];
 
 		//Perform search in the queue for finding a path
 		while (queue.length>0) {
@@ -356,7 +386,7 @@ Checks for a win by connecting  a loop around one or more cells
 	 * commented out since we need not test this function for hW3
 	 * Returns all the possible moves for the given board and turnIndexBeforeMove.
 	 * Returns an empty array if the game is over.
-
+*/
 	function getPossibleMoves(board, turnIndexBeforeMove) {
 		var possibleMoves = [];
 		var i, j;
@@ -372,17 +402,18 @@ Checks for a win by connecting  a loop around one or more cells
 		return possibleMoves;
 	}
 
-	 */
+	 
 
 	return {
 
-		/*getPossibleMoves: getPossibleMoves,*/
+		getPossibleMoves: getPossibleMoves,
 		setBoard: setBoard,
 		createMove: createMove,
 		isMoveOk: isMoveOk,
 		isTie : isTie,
 		isInsideBoard : isInsideBoard,
 		getConnectedPath : getConnectedPath,
+		getConnectedPathForRing : getConnectedPathForRing,
 		getNeighborsWithSameColor : getNeighborsWithSameColor,
 		getBridgeWin : getBridgeWin,
 		getForkWin : getForkWin,

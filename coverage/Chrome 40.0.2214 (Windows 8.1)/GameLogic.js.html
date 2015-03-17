@@ -18,16 +18,16 @@
     <h1>Code coverage report for <span class="entity">./GameLogic.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">97.32% <small>(145 / 149)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">88.48% <small>(146 / 165)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">94.74% <small>(90 / 95)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">90.91% <small>(90 / 99)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">100% <small>(12 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">92.31% <small>(12 / 13)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">97.96% <small>(144 / 147)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">88.96% <small>(145 / 163)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -427,7 +427,38 @@
 390
 391
 392
-393</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -701,6 +732,36 @@
 <span class="cline-any cline-yes">6</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -804,6 +865,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">22</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1091,6 +1153,36 @@ Checks for a win by connecting  a loop around one or more cells
 			}
 		}
 		return false;
+		
+	}
+<span class="fstat-no" title="function not covered" >		function getConnectedPathForRing(board,row,col) {	</span>
+<span class="cstat-no" title="statement not covered" >		var queue = [];</span>
+<span class="cstat-no" title="statement not covered" >		queue.push([row,col]);</span>
+<span class="cstat-no" title="statement not covered" >		var came_from = [];</span>
+<span class="cstat-no" title="statement not covered" >		came_from[[row,col]]=[[-1],[-1]];</span>
+&nbsp;
+		//Perform search in the queue for finding a path
+<span class="cstat-no" title="statement not covered" >		while (queue.length&gt;0) {</span>
+<span class="cstat-no" title="statement not covered" >			var current = queue.shift();</span>
+			//console.log("current",current);
+<span class="cstat-no" title="statement not covered" >			var cells = getNeighborsWithSameColor(board,current[0],current[1]);</span>
+			//console.log("NeighborsWithSameColor",cells);
+<span class="cstat-no" title="statement not covered" >			for (var next in cells) {</span>
+				//console.log(next,cells[next]);
+<span class="cstat-no" title="statement not covered" >				if(cells[next] in came_from == false)</span>
+				{
+<span class="cstat-no" title="statement not covered" >					queue.push(cells[next]);</span>
+<span class="cstat-no" title="statement not covered" >					came_from[cells[next]] = cells[next];</span>
+					//console.log("came_from",came_from[cells[next]]);
+				}
+				else <span class="cstat-no" title="statement not covered" >if(came_from[cells[next]]===[[-1],[-1]]){</span>
+<span class="cstat-no" title="statement not covered" >					queue.push(cells[next]);</span>
+<span class="cstat-no" title="statement not covered" >came_from[cells[next]] = cells[next];</span>
+&nbsp;
+					}
+			}
+		}
+<span class="cstat-no" title="statement not covered" >		return came_from;</span>
 	}
 &nbsp;
 &nbsp;
@@ -1099,7 +1191,7 @@ Checks for a win by connecting  a loop around one or more cells
 		var queue = [];
 		queue.push([row,col]);
 		var came_from = [];
-		came_from[[row,col]]=[[0],[0]];
+		came_from[[row,col]]=[[row],[col]];
 &nbsp;
 		//Perform search in the queue for finding a path
 		while (queue.length&gt;0) {
@@ -1204,6 +1296,7 @@ Checks for a win by connecting  a loop around one or more cells
 		isTie : isTie,
 		isInsideBoard : isInsideBoard,
 		getConnectedPath : getConnectedPath,
+		getConnectedPathForRing : getConnectedPathForRing,
 		getNeighborsWithSameColor : getNeighborsWithSameColor,
 		getBridgeWin : getBridgeWin,
 		getForkWin : getForkWin,
@@ -1216,7 +1309,7 @@ Checks for a win by connecting  a loop around one or more cells
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Mar 01 2015 22:11:20 GMT-0500 (Eastern Standard Time)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Mar 01 2015 22:43:54 GMT-0500 (Eastern Standard Time)</div>
 </div>
 
 <script src="../prettify.js"></script>
