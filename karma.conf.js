@@ -1,4 +1,5 @@
 module.exports = function(config){
+	 'use strict';
   config.set({
 
     basePath : './',
@@ -6,8 +7,8 @@ module.exports = function(config){
     files : [
       'http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.js',
       'http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-mocks.js',
-      'GameLogic.js',
-      'Test_GameLogic.js',
+      'src/GameLogic.js',
+      'src/Test_GameLogic.js',
     ],
 
     reporters: ['progress', 'coverage'],
@@ -16,7 +17,7 @@ module.exports = function(config){
       // source files, that you wanna generate coverage for
       // do not include tests or libraries
       // (these files will be instrumented by Istanbul)
-      'GameLogic.js': ['coverage']
+      'src/GameLogic.js': ['coverage']
     },
 
     // optionally, configure the reporter
