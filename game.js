@@ -66,8 +66,8 @@ angular.module('myApp')
     };
     $scope.getImageSrc = function (row, col) {
       var cell = $scope.board[row][col];
-      return cell === "R" ? "imgs/red.png"
-          : cell === "B" ? "imgs/black.png" : "";
+      return cell === "R" ? "imgs/redBall.png"
+          : cell === "B" ? "imgs/blackball.gif" : "";
     };
     $scope.shouldSlowlyAppear = function (row, col) {
       return $scope.delta !== undefined &&
@@ -75,7 +75,7 @@ angular.module('myApp')
     };
 
     gameService.setGame({
-      gameDeveloperEmail: "npb245@nyu.edu",
+      gameDeveloperEmail: "sm5119@nyu.edu",
       minNumberOfPlayers: 2,
       maxNumberOfPlayers: 2,
       isMoveOk: gameLogic.isMoveOk,
