@@ -8,13 +8,11 @@ describe('Havannah', function() {
 
 
   function getDiv(row, col) {
-	
     return element(by.id('e2e_test_div_' + row + 'x' + col));
   }
 
   function getPiece(row, col, pieceKind) {
-	  console.log(element(by.id('e2e_test_piece' + pieceKind + '_' + row + 'x' + col)));
-    return element(by.id('e2e_test_piece_' + row + 'x' + col));
+    return element(by.id('e2e_test_piece' + pieceKind + '_' + row + 'x' + col));
   }
 
   function expectPiece(row, col, pieceKind) {
@@ -26,8 +24,7 @@ describe('Havannah', function() {
 catch(Exception ){
 	return false;}
 return false;
-*/ 
-	  expect(getPiece(row, col, "R").isDisplayed()).toEqual(pieceKind === "R" ? true : false);
+*/ expect(getPiece(row, col, "R").isDisplayed()).toEqual(pieceKind === "R" ? true : false);
    // expect((getPiece(row, col, '').isDisplayed())? true : false);
     expect(getPiece(row, col, "B").isDisplayed()).toEqual(pieceKind === "B" ? true : false);
   }
@@ -94,28 +91,24 @@ var boardT=getInitialBoard();
             boardT);
   });
   
-  iit('2: should show R if I click in 0x0', function () {
+  it('2: should show R if I click in 0x0', function () {
 	  var boardT=getInitialBoard();
 	//  boardT[0][0]="R";
     expect(clickDivAndExpectPiece(0, 0, "R")).toBe(true);
-      
+  
   });
-
+/*
   it('should ignore clicking on a non-empty cell', function () {
 	  var boardT=getInitialBoard();
-	 // boardT[0][0]="R";
+	  boardT[0][0]="R";
     clickDivAndExpectPiece(0, 0, "R");
     clickDivAndExpectPiece(0, 0, "B"); // clicking on a non-empty cell doesn't do anything.
    // clickDivAndExpectPiece(1, 1, "B");
     expectBoard(
        boardT);
   });
-/*
+
   it('should end game if X wins', function () {
-	  var boardT=getInitialBoard();
-		for(i=0; i<8; ++i) {
-			clickDivAndExpectPiece(0, 0, "B");
-		}
     for (var col = 0; col < 3; col++) {
       clickDivAndExpectPiece(1, col, "R");
       // After the game ends, player "B" click (in cell 2x2) will be ignored.
