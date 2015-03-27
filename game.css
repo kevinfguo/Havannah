@@ -15,6 +15,40 @@
   -webkit-animation: slowlyAppear 0.5s linear; /* Chrome, Safari, Opera */
   animation: slowlyAppear 0.5s linear;
 }
+
+
+.hexagon {
+  fill: white;
+  pointer-events: all;
+}
+
+.hexagon path {
+  -webkit-transition: fill 250ms linear;
+  transition: fill 250ms linear;
+}
+
+.hexagon :hover {
+  fill: pink;
+}
+
+.hexagon .fill {
+  fill: red;
+}
+
+.mesh {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .2;
+  pointer-events: none;
+}
+
+.border {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+  pointer-events: none;
+}
+
 /* Chrome, Safari, Opera */
 @-webkit-keyframes slowlyAppear {
   from {opacity: 0.1;}
