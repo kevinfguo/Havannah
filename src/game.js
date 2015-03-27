@@ -9,6 +9,15 @@ angular.module('myApp')
 
     resizeGameAreaService.setWidthToHeight(1);
 
+ 	$scope.numbersTo=      function numbersTo(start,end) {
+        var res = [];
+        for (var i=start; i<end; i++) {
+          res[i] = i;
+        }
+      
+        return res;
+      }
+ 	
     function sendComputerMove() {
       var possMoves = gameLogic.getPossibleMoves($scope.board,$scope.turnIndex);
       console.log('Possible Moves=',possMoves);
