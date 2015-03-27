@@ -3,7 +3,7 @@ describe('Havannah', function() {
   'use strict';
 
   beforeEach(function() {
-    browser.get('http://localhost:9000/game.html');
+    browser.get('http://localhost:33940/game.html');
   });
 
   function getDiv(row, col) {
