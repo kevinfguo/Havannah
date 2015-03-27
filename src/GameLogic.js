@@ -1,7 +1,4 @@
 angular.module('myApp', []).factory('gameLogic', function() {
-	
-	'use strict';
-	
 	/*
 	 * Grid representation:
 	 *
@@ -46,12 +43,11 @@ angular.module('myApp', []).factory('gameLogic', function() {
 var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15],
                 [0, 1], [1, 2], [0, 3], [0, 4],[0,5],[0,6],[0,7]];
 	 */
-	
+	'use strict';
 	/*
 	function angular.equals(object1, object2) {
 		return JSON.stringify(object1) === JSON.stringify(object2);
 	}
-
 	function angular.copy(object) {
 		return JSON.parse(JSON.stringify(object));
 	}
@@ -339,9 +335,7 @@ came_from[cells[next]] = cells[next];
 	Gets the cells adjacent to a given cell with the same color
 	Possible adjacent x for cell y. Here (1,y,6) (2,4) and (3,5) belong to a particular column.
 		1 		2
-
 	3 		y 		4
-
 		5 		6
 	 */
 	function getNeighborsWithSameColor(board,row,col){
