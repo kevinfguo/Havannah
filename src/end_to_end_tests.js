@@ -3,16 +3,18 @@ describe('Havannah', function() {
   'use strict';
 
   beforeEach(function() {
-    browser.get('http://localhost:33940/game.html');
+    browser.get('http://localhost:33940/game.min.html');
   });
 
 
   function getDiv(row, col) {
+	
     return element(by.id('e2e_test_div_' + row + 'x' + col));
   }
 
   function getPiece(row, col, pieceKind) {
-    return element(by.id('e2e_test_piece' + pieceKind + '_' + row + 'x' + col));
+	//  console.log(element(by.id('e2e_test_piece' + pieceKind + '_' + row + 'x' + col)));
+    return element(by.id('e2e_test_piece'+pieceKind+'_' + row + 'x' + col));
   }
 
   function expectPiece(row, col, pieceKind) {
@@ -24,7 +26,8 @@ describe('Havannah', function() {
 catch(Exception ){
 	return false;}
 return false;
-*/ expect(getPiece(row, col, "R").isDisplayed()).toEqual(pieceKind === "R" ? true : false);
+*/ 
+	  expect(getPiece(row, col, "R").isDisplayed()).toEqual(pieceKind === "R" ? true : false);
    // expect((getPiece(row, col, '').isDisplayed())? true : false);
     expect(getPiece(row, col, "B").isDisplayed()).toEqual(pieceKind === "B" ? true : false);
   }
@@ -83,9 +86,10 @@ var boardT=getInitialBoard();
         boardT);
   });
 
+//fails because getPiece does not return an element
   it('1: should show R if I click in 0x0', function () {
 	  var boardT=getInitialBoard();
-	//  boardT[0][0]="R";
+	  boardT[0][0]="R";
     clickDivAndExpectPiece(0, 0, "R");
     expectBoard(
             boardT);
@@ -93,11 +97,11 @@ var boardT=getInitialBoard();
   
   it('2: should show R if I click in 0x0', function () {
 	  var boardT=getInitialBoard();
-	//  boardT[0][0]="R";
+	  boardT[0][0]="R";
     expect(clickDivAndExpectPiece(0, 0, "R")).toBe(true);
-  
+      
   });
-/*
+
   it('should ignore clicking on a non-empty cell', function () {
 	  var boardT=getInitialBoard();
 	  boardT[0][0]="R";
@@ -108,34 +112,71 @@ var boardT=getInitialBoard();
        boardT);
   });
 
-  it('should end game if X wins', function () {
-    for (var col = 0; col < 3; col++) {
-      clickDivAndExpectPiece(1, col, "R");
-      // After the game ends, player "B" click (in cell 2x2) will be ignored.
-      clickDivAndExpectPiece(2, col, col === 2 ? "" : "B");
-    }
-    expectBoard(
-        [['', '', ''],
-         ['X', 'X', 'X'],
-         ['O', 'O', '']]);
+  it('should end game if B wins by forming a bridge', function () {
+	  var boardT=getInitialBoard();
+		for(i=0; i<8; ++i) {
+      boardT[0][i]='B';
+			clickDivAndExpectPiece(0, i, "B");
+		}
+    expectBoard(boardT);
   });
 
   it('should end the game in tie', function () {
-    clickDivAndExpectPiece(0, 0, "R");
-    clickDivAndExpectPiece(1, 0, "B");
-    clickDivAndExpectPiece(0, 1, "R");
-    clickDivAndExpectPiece(1, 1, "B");
-    clickDivAndExpectPiece(1, 2, "R");
-    clickDivAndExpectPiece(0, 2, "B");
-    clickDivAndExpectPiece(2, 0, "R");
-    clickDivAndExpectPiece(2, 1, "B");
-    clickDivAndExpectPiece(2, 2, "R");
-    expectBoard(
-        [['X', 'X', 'O'],
-         ['O', 'O', 'X'],
-         ['X', 'O', 'X']]);
+   var horIndex = [[0, 8], [0, 9], [0, 10], [0, 11], [0, 12], [0, 13],[0,14],[0,15],
+                    [1,15], [2, 15], [3, 15], [4, 15], [5, 15],[6,15],[7,15]];
+    var boardT=getInitialBoard();
+    for(i=0; i<15; ++i){
+      for(j=horIndex[i][0]; j<horIndex[i][1]; ++j){
+      boardT[i][j]='B';
+      clickDivAndExpectPiece(i, j, "B");
+
+      }
+    }
+
+   expectBoard(boardT);
   });
 
+  it("Check if R gets a Win by forming a Ring", function() {
+    var boardT=getInitialBoard();
+    clickDivAndExpectPiece(2, 2, "B");
+    
+    for(i=1; i<4; ++i) {
+      for(j=1; j<4; ++j) {
+        boardT[i][j]='R';
+        clickDivAndExpectPiece(i, j, "R");
+      }
+    }
+     boardT[2][2]='B';
+    // board5[2][2]='';
+    // board5[1][1]='';
+    // board5[14][14]='B';
+   // var nextBoard = angular.copy(board5);
+   // nextBoard[1][1] = 'R';
+   expectBoard(boardT);
+  
+      });
+  
+  it("Check  B gets a Win by forming a Fork", function() {
+    var board4=getInitialBoard();
+       clickDivAndExpectPiece(0, 1, "B");
+    for(i=0; i<9; ++i) {
+      board4[i][1]='B';
+       clickDivAndExpectPiece(i, 1, "B");
+    }
+    for(i=1; i<15; ++i) {
+      board4[8][i]='B';
+       clickDivAndExpectPiece(8, i, "B");
+    }
+    board4[0][1]='B';
+    //board4[14][14]='R';
+    //var nextBoard = angular.copy(board4);
+    //nextBoard[0][1] = 'B';
+ expectBoard(boardT);
+  
+  
+      }); 
+  
+/*
   var delta1 = {row: 1, col: 0};
   var board1 =
       [['X', 'O', ''],
