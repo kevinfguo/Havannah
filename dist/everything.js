@@ -1,7 +1,4 @@
 angular.module('myApp', []).factory('gameLogic', function() {
-	
-	'use strict';
-	
 	/*
 	 * Grid representation:
 	 *
@@ -46,12 +43,11 @@ angular.module('myApp', []).factory('gameLogic', function() {
 var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15],
                 [0, 1], [1, 2], [0, 3], [0, 4],[0,5],[0,6],[0,7]];
 	 */
-	
+	'use strict';
 	/*
 	function angular.equals(object1, object2) {
 		return JSON.stringify(object1) === JSON.stringify(object2);
 	}
-
 	function angular.copy(object) {
 		return JSON.parse(JSON.stringify(object));
 	}
@@ -339,9 +335,7 @@ came_from[cells[next]] = cells[next];
 	Gets the cells adjacent to a given cell with the same color
 	Possible adjacent x for cell y. Here (1,y,6) (2,4) and (3,5) belong to a particular column.
 		1 		2
-
 	3 		y 		4
-
 		5 		6
 	 */
 	function getNeighborsWithSameColor(board,row,col){
@@ -435,6 +429,15 @@ came_from[cells[next]] = cells[next];
 
     resizeGameAreaService.setWidthToHeight(1);
 
+ 	$scope.numbersTo=      function numbersTo(start,end) {
+        var res = [];
+        for (var i=start; i<end; i++) {
+          res[i] = i;
+        }
+      
+        return res;
+      }
+ 	
     function sendComputerMove() {
       var possMoves = gameLogic.getPossibleMoves($scope.board,$scope.turnIndex);
       console.log('Possible Moves=',possMoves);
@@ -468,7 +471,113 @@ came_from[cells[next]] = cells[next];
       }
     }
    // window.e2e_test_stateService = stateService; // to allow us to load any state in our e2e tests.
+/*
+    var width = 960,
+    height = 500,
+    radius = 20;
 
+var topology = hexTopology(radius, width, height);
+
+var projection = hexProjection(radius);
+
+var path = d3.geo.path()
+    .projection(projection);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+svg.append("g")
+    .attr("class", "hexagon")
+  .selectAll("path")
+    .data(topology.objects.hexagons.geometries)
+  .enter().append("path")
+    .attr("d", function(d) { return path(topojson.feature(topology, d)); })
+    .attr("class", function(d) { return d.fill ? "fill" : null; })
+    .on("mousedown", mousedown)
+    .on("mousemove", mousemove)
+    .on("mouseup", mouseup);
+
+svg.append("path")
+    .datum(topojson.mesh(topology, topology.objects.hexagons))
+    .attr("class", "mesh")
+    .attr("d", path);
+
+var border = svg.append("path")
+    .attr("class", "border")
+    .call(redraw);
+
+var mousing = 0;
+
+function mousedown(d) {
+  mousing = d.fill ? -1 : +1;
+  mousemove.apply(this, arguments);
+}
+
+function mousemove(d) {
+  if (mousing) {
+    d3.select(this).classed("fill", d.fill = mousing > 0);
+    border.call(redraw);
+  }
+}
+
+function mouseup() {
+  mousemove.apply(this, arguments);
+  mousing = 0;
+}
+
+function redraw(border) {
+  border.attr("d", path(topojson.mesh(topology, topology.objects.hexagons, function(a, b) { return a.fill ^ b.fill; })));
+}
+
+function hexTopology(radius, width, height) {
+  var dx = radius * 2 * Math.sin(Math.PI / 3),
+      dy = radius * 1.5,
+      m = Math.ceil((height + radius) / dy) + 1,
+      n = Math.ceil(width / dx) + 1,
+      geometries = [],
+      arcs = [];
+
+  for (var j = -1; j <= m; ++j) {
+    for (var i = -1; i <= n; ++i) {
+      var y = j * 2, x = (i + (j & 1) / 2) * 2;
+      arcs.push([[x, y - 1], [1, 1]], [[x + 1, y], [0, 1]], [[x + 1, y + 1], [-1, 1]]);
+    }
+  }
+
+  for (var j = 0, q = 3; j < m; ++j, q += 6) {
+    for (var i = 0; i < n; ++i, q += 3) {
+      geometries.push({
+        type: "Polygon",
+        arcs: [[q, q + 1, q + 2, ~(q + (n + 2 - (j & 1)) * 3), ~(q - 2), ~(q - (n + 2 + (j & 1)) * 3 + 2)]],
+        fill: Math.random() > i / n * 2
+      });
+    }
+  }
+
+  return {
+    transform: {translate: [0, 0], scale: [1, 1]},
+    objects: {hexagons: {type: "GeometryCollection", geometries: geometries}},
+    arcs: arcs
+  };
+}
+
+function hexProjection(radius) {
+  var dx = radius * 2 * Math.sin(Math.PI / 3),
+      dy = radius * 1.5;
+  return {
+    stream: function(stream) {
+      return {
+        point: function(x, y) { stream.point(x * dx / 2, (y - (2 - (y & 1)) / 3) * dy / 2); },
+        lineStart: function() { stream.lineStart(); },
+        lineEnd: function() { stream.lineEnd(); },
+        polygonStart: function() { stream.polygonStart(); },
+        polygonEnd: function() { stream.polygonEnd(); }
+      };
+    }
+  };
+}
+*/
     $scope.cellClicked = function (row, col) {
       $log.info(["Clicked on cell:", row, col]);
       if (window.location.search === '?throwException') { // to test encoding a stack trace with sourcemap
@@ -482,7 +591,7 @@ came_from[cells[next]] = cells[next];
         $scope.isYourTurn = false; // to prevent making another move
         gameService.makeMove(move);
       } catch (e) {
-        $log.info(["Cell is already full in position:", row, col]);
+        $log.info(["Cell is already full in position:", row, col,e]);
         return;
       }
     };
@@ -490,6 +599,12 @@ came_from[cells[next]] = cells[next];
       var cell = $scope.board[row][col];
       return cell !== "";
     };
+    $scope.isPieceR = function (row, col) {
+        return $scope.board[row][col] === 'R';
+      };
+      $scope.isPieceB = function (row, col) {
+        return $scope.board[row][col] === 'B';
+      };
     $scope.getImageSrc = function (row, col) {
       var cell = $scope.board[row][col];
       return cell === "R" ? "imgs/redBall.png"
@@ -507,4 +622,49 @@ came_from[cells[next]] = cells[next];
       isMoveOk: gameLogic.isMoveOk,
       updateUI: updateUI
     });
-  }]);
+  }]);;angular.module('myApp').factory('aiService',
+    ["alphaBetaService", "gameLogic",
+      function(alphaBetaService, gameLogic) {
+
+  'use strict';
+
+  /**
+   * Returns the move that the computer player should do for the given board.
+   * alphaBetaLimits is an object that sets a limit on the alpha-beta search,
+   * and it has either a millisecondsLimit or maxDepth field:
+   * millisecondsLimit is a time limit, and maxDepth is a depth limit.
+   */
+  function createComputerMove(board, playerIndex, alphaBetaLimits) {
+    // We use alpha-beta search, where the search states are TicTacToe moves.
+    // Recal that a TicTacToe move has 3 operations:
+    // 1) endMatch or setTurn
+    // 2) {set: {key: 'board', value: ...}}
+    // 3) {set: {key: 'delta', value: ...}}]
+    return alphaBetaService.alphaBetaDecision(
+        [null, {set: {key: 'board', value: board}}],
+        playerIndex, getNextStates, getStateScoreForIndex0,
+        // If you want to see debugging output in the console, then surf to game.html?debug
+        window.location.search === '?debug' ? getDebugStateToString : null,
+        alphaBetaLimits);
+  }
+
+  function getStateScoreForIndex0(move) { // alphaBetaService also passes playerIndex, in case you need it: getStateScoreForIndex0(move, playerIndex)
+    if (move[0].endMatch) {
+      var endMatchScores = move[0].endMatch.endMatchScores;
+      return endMatchScores[0] > endMatchScores[1] ? Number.POSITIVE_INFINITY
+          : endMatchScores[0] < endMatchScores[1] ? Number.NEGATIVE_INFINITY
+          : 0;
+    }
+    return 0;
+  }
+
+  function getNextStates(move, playerIndex) {
+    return gameLogic.getPossibleMoves(move[1].set.value, playerIndex);
+  }
+
+  function getDebugStateToString(move) {
+    return "\n" + move[1].set.value.join("\n") + "\n";
+  }
+
+  return {createComputerMove: createComputerMove};
+}]);

@@ -45,9 +45,9 @@
 <div id="gameArea" style="position:absolute; height: 400px; width:400px">
 
     <div ng-repeat="row in numbersTo(0,8)">
-      <div ng-repeat="col in numbersTo(0,8 + row)" id="{{'e2e_test_div_' + row + 'x' + col}}">
+      <div ng-repeat="col in numbersTo(0,8 + row)" >
         <img style="position:absolute; left:{{6.6*col + (9 - row) * (5 - 6/4) }}%; top:{{5 * row}}%;  width:7%; height:7%;" src="imgs/hexagon2.png" >
-     <div  style=" position:absolute; top:{{5 * row+1.5}}%; left:{{6.6*col + (9 - row) * (5 - 6/4)+1.25}}%%; height:4.5%; width:4.5% " ng-click="cellClicked(row,col)"   >
+     <div id="{{'e2e_test_div_' + row + 'x' + col}}" style=" position:absolute; top:{{5 * row+1.5}}%; left:{{6.6*col + (9 - row) * (5 - 6/4)+1.25}}%%; height:4.5%; width:4.5% " ng-click="cellClicked(row,col)"   >
     <img ng-class="{piece: true, slowlyAppear: shouldSlowlyAppear(row, col)}"  ng-show="isPieceR(row, col)" ng-show="shouldShowImage(row, col)"   ng-src="{{getImageSrc(row, col)}}"
           id="{{'e2e_test_pieceR_' + row + 'x' + col}}">
           <img ng-class="{piece: true, slowlyAppear: shouldSlowlyAppear(row, col)}"  ng-show="isPieceB(row, col)" ng-show="shouldShowImage(row, col)"   ng-src="{{getImageSrc(row, col)}}"
@@ -57,9 +57,9 @@
   </div>
 
     <div ng-repeat="row in numbersTo(0,7) ">
-      <div ng-repeat="col in numbersTo(0,(14-row)) " id="{{'e2e_test_div_' + (row+8) + 'x' + (row+1+col)}}">
+      <div ng-repeat="col in numbersTo(0,(14-row)) " >
         <img style="position:absolute; top:{{5 * row+40}}%; left:{{6.6*col + (3 + row) * (5 - 6/4) }}%; width:7%; height:7%;" src="imgs/hexagon2.png">
-        <div  style="position:absolute; top:{{5 * row+41.5}}%; left:{{6.6*col + (3+ row) * (5 - 6/4)+1.25}}%%; height:4.5%; width:4.5%" ng-click="cellClicked((row+8),(col+row+1))" >
+        <div  id="{{'e2e_test_div_' + (row+8) + 'x' + (row+1+col)}}" style="position:absolute; top:{{5 * row+41.5}}%; left:{{6.6*col + (3+ row) * (5 - 6/4)+1.25}}%%; height:4.5%; width:4.5%" ng-click="cellClicked((row+8),(col+row+1))" >
     <img ng-class="{piece: true, slowlyAppear: shouldSlowlyAppear((row+8), (row+1+col))}"  ng-show="isPieceR((row+8), (row+1+col))"  ng-show="shouldShowImage((row+8), (row+1+col))"    ng-src="{{getImageSrc((row+8), (row+col+1))}}"
             id="{{'e2e_test_pieceR_' + (row+8) + 'x' + (row+col+1)}}"  >
   
