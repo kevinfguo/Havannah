@@ -83,7 +83,15 @@ var boardT=getInitialBoard();
         boardT);
   });
 
-  iit('should show R if I click in 0x0', function () {
+  it('1: should show R if I click in 0x0', function () {
+	  var boardT=getInitialBoard();
+	//  boardT[0][0]="R";
+    clickDivAndExpectPiece(0, 0, "R");
+    expectBoard(
+            boardT);
+  });
+  
+  it('2: should show R if I click in 0x0', function () {
 	  var boardT=getInitialBoard();
 	//  boardT[0][0]="R";
     expect(clickDivAndExpectPiece(0, 0, "R")).toBe(true);
