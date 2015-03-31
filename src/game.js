@@ -44,27 +44,97 @@ angular.module('myApp')
      window.handleDragEvent = handleDragEvent;
      function handleDragEvent(type, clientX, clientY) {
        // Center point in gameArea
+    	 
        var x = clientX - gameArea.offsetLeft;
        var y = clientY - gameArea.offsetTop;
+       console.log(x,y,clientX,clientY,gameArea.clientWidth,gameArea.clientHeight);
        // Is outside gameArea?
        if (x < 0 || y < 0 || x >= gameArea.clientWidth || y >= gameArea.clientHeight) {
         // clickToDragPiece.style.display = "none";
          draggingLines.style.display = "none";
          return;
        }
+       var horIndex = [[0, 8], [0, 9], [0, 10], [0, 11], [0, 12], [0, 13],[0,14],[0,15],
+   	                [1,15], [2, 15], [3, 15], [4, 15], [5, 15],[6,15],[7,15]];
+  
       // clickToDragPiece.style.display = "inline";
        draggingLines.style.display = "inline";
        // Inside gameArea. Let's find the containing square's row and col
-       var col = Math.floor((colsNum * x) / gameArea.clientWidth);
+       
        var row = Math.floor((rowsNum * y) / gameArea.clientHeight);
-       var centerXY = getSquareCenterXY(row, col);
-       console.log(centerXY);
-       verticalDraggingLine.setAttribute("x1", centerXY.x-20);
-       verticalDraggingLine.setAttribute("x2",  centerXY.x);
-       horizontalDraggingLine.setAttribute("y1", centerXY.y);
-       horizontalDraggingLine.setAttribute("y2", centerXY.y);
-       var topLeft = getSquareTopLeft(row, col);
-      // clickToDragPiece.style.left = topLeft.left + "px";
+//       if (row%2===0)
+    	   var col = Math.floor((colsNum * x) / gameArea.clientWidth);
+  //     else
+    //	   var col = Math.floor((colsNum * x)+1 / gameArea.clientWidth);
+   
+    	 //	if(row>-1 && row<8 ) 
+    	        var centerXY = getSquareCenterXY(row, col);
+
+    	     //   else 
+    	     //	   var centerXY = getSquareCenterXYLower(row, col,clientX);
+    	     	   
+    	        
+    	        console.log(centerXY,row,col);
+    	        verticalDraggingLine.setAttribute("x1", centerXY.x);
+    	        verticalDraggingLine.setAttribute("x2",  centerXY.x);
+    	        horizontalDraggingLine.setAttribute("y1", centerXY.y);
+    	        horizontalDraggingLine.setAttribute("y2", centerXY.y);
+    	        var topLeft = getSquareTopLeft(row, col);
+    	     
+   	if(row==0 || row==1) {
+		//if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
+			 col=col-3;
+			         
+		//}
+	}
+   
+	if( row==2||row==3) {
+	//	if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
+			 col=col-2;
+			         
+		//}
+	}
+	
+	if( row==4 || row==5) {
+		//if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
+			 col=col-1;
+			         
+		//}
+	}
+  	if(row==8 || row==9) {
+	//	if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
+			 col=col+1;
+			         
+		//}
+	}
+   
+	if( row==10||row==11) {
+		//if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
+			 col=col+2;
+			         
+		//}
+	}
+	
+	if( row==12 || row==13) {
+		//if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
+			 col=col+3;
+			         
+		//}
+	}
+	if( row==14) {
+		//if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
+			 col=col+4;
+			         
+		//}
+	}
+   	if(row>-1 && row<15 ) {
+		if(!(col>(horIndex[row][0]-1) && col< horIndex[row][1])) {
+			 draggingLines.style.display = "none";
+			         
+		}
+	}
+
+    // clickToDragPiece.style.left = topLeft.left + "px";
       // clickToDragPiece.style.top = topLeft.top + "px";
        if (type === "touchend" || type === "touchcancel" || type === "touchleave" || type === "mouseup") {
          // drag ended
@@ -85,22 +155,40 @@ angular.module('myApp')
        return {top: row * size.height, left: col * size.width}
      }
      function getSquareCenterXY(row, col) {
+         var size = getSquareWidthHeight();
+         return {
+           x: col * size.width + size.width / 2 ,
+           y: row * size.height + size.height / 2
+           
+         };
+       }
+     function getSquareCenterXYUpper(row, col,clientX) {
        var size = getSquareWidthHeight();
        return {
-         x: col * size.width + size.width / 2,
-         y: row * size.height + size.height / 2
+         x: col * size.width + size.width / 2 ,
+         y: row * size.height + size.height / 2,
+         z:clientX-(50*row)
        };
      }
-       function isWhiteSquare(row, col) {
-         return ((row+col)%2)==0;
-       }
-       function getIntegersTill(number) {
-         var res = [];
-         for (var i = 0; i < number; i++) {
-           res.push(i);
-         }
-         return res;
-       }
+       
+       function getSquareCenterXYLower(row, col,clientX) {
+           var size = getSquareWidthHeight();
+           return {
+             x:col * size.width + size.width / 2,
+             y: row * size.height + size.height / 2,
+             z:row+clientX
+           };
+     }
+//       function isWhiteSquare(row, col) {
+//         return ((row+col)%2)==0;
+//       }
+//       function getIntegersTill(number) {
+//         var res = [];
+//         for (var i = 0; i < number; i++) {
+//           res.push(i);
+//         }
+//         return res;
+//       }
 //       $scope.rows = getIntegersTill(rowsNum);
 //       $scope.cols = getIntegersTill(colsNum);
 //       $scope.rowsNum = rowsNum;
@@ -111,7 +199,7 @@ angular.module('myApp')
       var possMoves = gameLogic.getPossibleMoves($scope.board,$scope.turnIndex);
       console.log('Possible Moves=',possMoves);
       var randomNo = Math.floor(Math.random()*possMoves.length);
-      console.log('random move=',possMoves[randomNo]);
+      console.log('random move=',  possMoves[randomNo]);
       gameService.makeMove(possMoves[randomNo]); 
      
       // gameService.makeMove(aiService.createComputerMove($scope.board, $scope.turnIndex,
