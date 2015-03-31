@@ -607,8 +607,8 @@ function hexProjection(radius) {
       };
     $scope.getImageSrc = function (row, col) {
       var cell = $scope.board[row][col];
-      return cell === "R" ? "imgs/redBall.png"
-          : cell === "B" ? "imgs/blackball.gif" : "";
+      return cell === "R" ? "imgs/R.png"
+          : cell === "B" ? "imgs/B.gif" : "";
     };
     $scope.shouldSlowlyAppear = function (row, col) {
       return $scope.delta !== undefined &&
