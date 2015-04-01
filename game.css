@@ -24,6 +24,45 @@ svg {
 	width:100%;
 	height:100%;
 }
+
+.enlarge0 {
+    position: absolute;
+    width: 100%;
+    top: 0%;
+    left: 0%;
+    -webkit-animation: enlarge1 2s;
+    -moz-animation: enlarge1 2s;
+    -o-animation: enlarge1 2s;
+    animation: enlarge1 2s;
+
+}
+
+
+
+
+.enlarge1 {
+    position: absolute;
+    width: 100%;
+    top: 0%;
+    left: 0%;
+    -webkit-animation: enlarge1 1s;
+    -moz-animation: enlarge1 1s;
+    -o-animation: enlarge1 1s;
+    animation: enlarge1 1s;
+
+}
+
+.enlarge2 {
+    position: absolute;
+    width: 100%;
+    top: 0%;
+    left: 0%;
+    -webkit-animation: enlarge2 1s;
+    -moz-animation: enlarge2 1s;
+    -o-animation: enlarge2 1s;
+    animation: enlarge2 1s;
+
+}
 .slowlyAppear {
 /* -webkit-animation: slowlyAppear 0.5s linear; 
   animation: slowlyAppear 0.5s linear;*/

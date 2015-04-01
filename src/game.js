@@ -209,7 +209,18 @@ angular.module('myApp')
 
     function updateUI(params) {
       $scope.board = params.stateAfterMove.board;
-      $scope.delta = params.stateAfterMove.delta;
+      var move = params.move;
+     /* $scope.delta = params.stateBeforeMove;
+      var row = $scope.delta.row;
+      var col = $scope.delta.col;
+      
+      var img = document.getElementById('e2e_test_img_' + row + 'x' + col);
+      if (img.className === 'enlarge1')
+          img.className = 'enlarge2';
+      else
+          img.className = 'enlarge1';
+      $log.info("current" + img.className);
+      */
       if ($scope.board === undefined) {
         $scope.board = gameLogic.setBoard();
       }
