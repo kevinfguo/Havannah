@@ -87,7 +87,8 @@ module.exports = function(grunt) {
             'http://yoav-zibin.github.io/emulator/angular-translate/angular-translate.2.6.1.min.js',
             'languages/en.js',
             'imgs/hexagon2.png', 'imgs/R.png', 'imgs/B.gif',
-            'http://yoav-zibin.github.io/emulator/main.css',
+            'http://yoav-zibin.github.io/emulator/main.css', 
+            'http://yoav-zibin.github.io/emulator/dist/dragAndDropListeners.min.js ',
             'dist/everything.min.js',
             'game.css'
           ],
