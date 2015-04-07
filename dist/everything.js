@@ -422,9 +422,9 @@ came_from[cells[next]] = cells[next];
 
   .controller('Ctrl',
       ['$scope', '$rootScope','$log', '$timeout',
-       'gameService', 'stateService', 'gameLogic', 'resizeGameAreaService',
+       'gameService', 'stateService', 'gameLogic',  'aiService','resizeGameAreaService',
       function ($scope, $rootScope, $log, $timeout,
-        gameService, stateService, gameLogic, resizeGameAreaService) {
+        gameService, stateService, gameLogic,  aiService, resizeGameAreaService) {
 
     'use strict';
 
@@ -462,6 +462,7 @@ came_from[cells[next]] = cells[next];
      var rowsNum = 15;
      var colsNum = 15;
      window.handleDragEvent = handleDragEvent;
+
      function handleDragEvent(type, clientX, clientY) {
        // Center point in gameArea
     	 
@@ -486,69 +487,29 @@ came_from[cells[next]] = cells[next];
     	   var col = Math.floor((colsNum * x) / gameArea.clientWidth);
   //     else
     //	   var col = Math.floor((colsNum * x)+1 / gameArea.clientWidth);
-   
+   var columns = getColumn(row,col);
     	 //	if(row>-1 && row<8 ) 
     	        var centerXY = getSquareCenterXY(row, col);
 
     	     //   else 
     	     //	   var centerXY = getSquareCenterXYLower(row, col,clientX);
     	     	   
-    	        
-    	        console.log(centerXY,row,col);
-    	        verticalDraggingLine.setAttribute("x1", centerXY.x);
-    	        verticalDraggingLine.setAttribute("x2",  centerXY.x);
-    	        horizontalDraggingLine.setAttribute("y1", centerXY.y);
-    	        horizontalDraggingLine.setAttribute("y2", centerXY.y);
+    	         console.log(centerXY,row,col);
+              verticalDraggingLine.setAttribute("x1", centerXY.x);
+              verticalDraggingLine.setAttribute("x2",  centerXY.x);
+              horizontalDraggingLine.setAttribute("y1", centerXY.y);
+              horizontalDraggingLine.setAttribute("y2", centerXY.y);
     	        var topLeft = getSquareTopLeft(row, col);
-    	     
-   	if(row==0 || row==1) {
-		//if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
-			 col=col-3;
-			         
-		//}
-	}
-   
-	if( row==2||row==3) {
-	//	if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
-			 col=col-2;
-			         
-		//}
-	}
-	
-	if( row==4 || row==5) {
-		//if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
-			 col=col-1;
-			         
-		//}
-	}
-  	if(row==8 || row==9) {
-	//	if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
-			 col=col+1;
-			         
-		//}
-	}
-   
-	if( row==10||row==11) {
-		//if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
-			 col=col+2;
-			         
-		//}
-	}
-	
-	if( row==12 || row==13) {
-		//if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
-			 col=col+3;
-			         
-		//}
-	}
-	if( row==14) {
-		//if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
-			 col=col+4;
-			         
-		//}
-	}
+    	        //rotate vertical line
+    	        var rot = "rotate(27.5 "+Math.floor(centerXY.x)+" "+Math.floor(centerXY.y)+")";
+    	         verticalDraggingLine.setAttribute("transform",rot);
+    	        
+    	        var topLeft = getSquareTopLeft(row, col);
+//    	       clickToDragPiece.style.left = topLeft.left + "px";
+//    	       clickToDragPiece.style.top = topLeft.top + "px";
+ 
    	if(row>-1 && row<15 ) {
-		if(!(col>(horIndex[row][0]-1) && col< horIndex[row][1])) {
+		if(!(columns>(horIndex[row][0]-1) && columns< horIndex[row][1])) {
 			 draggingLines.style.display = "none";
 			         
 		}
@@ -560,8 +521,43 @@ came_from[cells[next]] = cells[next];
          // drag ended
         // clickToDragPiece.style.display = "none";
          draggingLines.style.display = "none";
-         dragDone(row, col);
+         dragDone(row, columns);
        }
+     
+     }
+
+
+function getColumn(row,col) {
+      var columns;
+    if(row==0 || row==1) {
+       columns=col-3;
+  }
+   
+  if( row==2||row==3) {
+       columns=col-2;
+  }
+  
+  if( row==4 || row==5) {
+       columns=col-1;
+  }
+    if( row==6 || row==7) {
+       columns=col;
+  }
+    if(row==8 || row==9) {
+       columns=col+1;
+  }
+   
+  if( row==10||row==11) {
+       columns=col+2;
+  }
+  
+  if( row==12 || row==13) {
+       columns=col+3;
+  }
+  if( row==14) {
+       columns=col+4;
+  }
+   return columns;
      }
      function getSquareWidthHeight() {
     
@@ -575,12 +571,19 @@ came_from[cells[next]] = cells[next];
        return {top: row * size.height, left: col * size.width}
      }
      function getSquareCenterXY(row, col) {
-         var size = getSquareWidthHeight();
-         return {
-           x: col * size.width + size.width / 2 ,
-           y: row * size.height + size.height / 2
-           
-         };
+       var size1 = getSquareWidthHeight();
+       var x1;
+              if(row%2 === 1){
+          x1 = col * size1.width + size1.width / 2;
+
+       }
+       else{
+          x1 = col * size1.width + size1.width;
+       }
+       return {
+         x: x1,
+         y: row * size1.height + size1.height / 2
+       };
        }
      function getSquareCenterXYUpper(row, col,clientX) {
        var size = getSquareWidthHeight();
@@ -616,15 +619,15 @@ came_from[cells[next]] = cells[next];
 //      
 
     function sendComputerMove() {
-      var possMoves = gameLogic.getPossibleMoves($scope.board,$scope.turnIndex);
-      console.log('Possible Moves=',possMoves);
-      var randomNo = Math.floor(Math.random()*possMoves.length);
-      console.log('random move=',  possMoves[randomNo]);
-      gameService.makeMove(possMoves[randomNo]); 
+//      var possMoves = gameLogic.getPossibleMoves($scope.board,$scope.turnIndex);
+//      console.log('Possible Moves=',possMoves);
+//      var randomNo = Math.floor(Math.random()*possMoves.length);
+//      console.log('random move=',  possMoves[randomNo]);
+//      gameService.makeMove(possMoves[randomNo]); 
      
-      // gameService.makeMove(aiService.createComputerMove($scope.board, $scope.turnIndex,
-      //     // at most 1 second for the AI to choose a move (but might be much quicker)
-      //     {millisecondsLimit: 1000}));
+       gameService.makeMove(aiService.createComputerMove($scope.board, $scope.turnIndex,
+           // at most 1 second for the AI to choose a move (but might be much quicker)
+           {millisecondsLimit: 1000}));
     }
 
     function updateUI(params) {
@@ -640,7 +643,24 @@ came_from[cells[next]] = cells[next];
       else
           img.className = 'enlarge1';
       $log.info("current" + img.className);
-      */
+      
+      try {
+var deltaValue = move[2].set.value;
+      var row = deltaValue.row;
+      var col = deltaValue.col;
+      console.log(row,col);
+      var pieceR = document.getElementById('e2e_test_pieceR_' + row + 'x' + col);
+      if (pieceR.className === 'enlarge0')
+          pieceR.className = 'enlarge1';
+      else
+          pieceR.className = 'enlarge0';
+
+      var pieceB = document.getElementById('e2e_test_pieceB_' + row + 'x' + col);
+      if (pieceB.className === 'enlarge1')
+          pieceB.className = 'enlarge2';
+      else
+          pieceB.className = 'enlarge1';
+} catch (e) {}*/
       if ($scope.board === undefined) {
         $scope.board = gameLogic.setBoard();
       }
@@ -804,8 +824,8 @@ function hexProjection(radius) {
       };
     $scope.getImageSrc = function (row, col) {
       var cell = $scope.board[row][col];
-      return cell === "R" ? "imgs/R.png"
-          : cell === "B" ? "imgs/B.gif" : "";
+      return cell === "R" ? "imgs/P.png"
+          : cell === "B" ? "imgs/B.png" : "";
     };
     $scope.shouldSlowlyAppear = function (row, col) {
       return $scope.delta !== undefined &&
@@ -834,9 +854,9 @@ function hexProjection(radius) {
   function createComputerMove(board, playerIndex, alphaBetaLimits) {
     // We use alpha-beta search, where the search states are TicTacToe moves.
     // Recal that a TicTacToe move has 3 operations:
-    // 1) endMatch or setTurn
-    // 2) {set: {key: 'board', value: ...}}
-    // 3) {set: {key: 'delta', value: ...}}]
+    // 0) endMatch or setTurn
+    // 1) {set: {key: 'board', value: ...}}
+    // 2) {set: {key: 'delta', value: ...}}]
     return alphaBetaService.alphaBetaDecision(
         [null, {set: {key: 'board', value: board}}],
         playerIndex, getNextStates, getStateScoreForIndex0,
