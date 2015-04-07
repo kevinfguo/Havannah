@@ -7,9 +7,12 @@ module.exports = function(config){
     files : [
       'http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.js',
       'http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-mocks.js',
+      'http://yoav-zibin.github.io/emulator/alphaBetaService.js',
       'src/GameLogic.js',
       'src/Test_GameLogic.js',
-    ],
+      'src/aiService.js',
+      'src/aiService_test.js'
+      ],
 
     reporters: ['progress', 'coverage'],
 
@@ -17,7 +20,7 @@ module.exports = function(config){
       // source files, that you wanna generate coverage for
       // do not include tests or libraries
       // (these files will be instrumented by Istanbul)
-      'src/GameLogic.js': ['coverage']
+      'src/aiService.js': ['coverage']
     },
 
     // optionally, configure the reporter
