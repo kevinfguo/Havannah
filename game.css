@@ -27,13 +27,11 @@ svg {
 
 .enlarge0 {
     position: absolute;
-    width: 100%;
-    top: 0%;
-    left: 0%;
-    -webkit-animation: enlarge1 2s;
-    -moz-animation: enlarge1 2s;
-    -o-animation: enlarge1 2s;
-    animation: enlarge1 2s;
+    width: 165%;
+    top: -30%;
+    left: -25%;
+   
+     
 
 }
 
@@ -42,14 +40,10 @@ svg {
 
 .enlarge1 {
     position: absolute;
-    width: 100%;
-    top: 0%;
-    left: 0%;
-    -webkit-animation: enlarge1 1s;
-    -moz-animation: enlarge1 1s;
-    -o-animation: enlarge1 1s;
-    animation: enlarge1 1s;
-
+   width: 210%;
+    top: -45%;
+    left: -50%;
+    
 }
 
 .enlarge2 {
