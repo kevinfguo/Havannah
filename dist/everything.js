@@ -36,7 +36,7 @@ angular.module('myApp', []).factory('gameLogic', function() {
 	var edge3 = [["8", "14"], ["9", "14"],["10", "14"], ["11","14"], ["12","14"], ["13","14"]];
 	var edge4 = [["14", "8"], ["14", "9"],["14", "10"], ["14","11"], ["14","12"], ["14","13"]];
 	var edge5 = [["8", "1"], ["9", "2"],["10", "3"], ["11","4"], ["12","5"], ["13","6"]];
-	var edge6 = [["1", "14"], ["2", "14"],["3", "14"], ["4","14"], ["5","14"], ["6","14"]];
+	var edge6 = [["1", "0"], ["2", "0"],["3", "0"], ["4","0"], ["5","0"], ["6","0"]];
 
 	var cornerCells=[["0","0"],["0","7"],["7","14"],["14","14"],["14","7"],["7","0"]];
 	/*
@@ -191,8 +191,8 @@ Checks for a win by connecting any three edges of the board
 		var count6=0;
 		var total_count=0;
 //		console.log(path);
-//		var path_cell = Object.keys(path);
-//		console.log(path_cell);
+		//var path_cell = Object.keys(path);
+		//console.log(path_cell);
 		for(var index in path){
 			//var cell = path[index];
 			//  console.log(cell);
@@ -227,7 +227,7 @@ Checks for a win by connecting any three edges of the board
 			}
 		}
 		total_count=count1+count2+count3+count4+count5+count6;
-//		console.log(count);
+		//console.log(total_count,count1,count2,count3,count4,count5,count6);
 		if(total_count==3) {
 			return true;
 		}
@@ -238,8 +238,78 @@ Checks for a win by connecting any three edges of the board
 Checks for a win by connecting  a loop around one or more cells
 	 */
 	function getRingWin(board,row,col) {
-		var path = getConnectedPath(board,row,col);
-		var neighbors= getNeighborsWithSameColor(board,row,col)
+		var path = getConnectedPathForRing(board,row,col);
+		var path2 = getConnectedPath(board,row,col);
+		
+		var check=[]
+		var count=0;
+		
+		console.log("PATH=",path);
+		
+		//var path_cell = Object.keys(path);
+
+		for(var index in path){
+			check[index]=0;
+		}
+console.log("check1=",check);
+		// if(count>5) {
+			for(var index in path){
+				var nbr=0;
+					var cell = path[index];
+					var rowC,colC;
+				  console.log("CELL=",cell,"ROW=",cell[0],"COL=",cell[1]);
+				//   for(var i in cell){
+				//   rowC=cell[i];
+				//   console.log(cell[i]);
+				//   break;
+				// }
+				//   for(var i in cell){
+				//   colC=cell[i];
+				//   }
+				//   console.log(colC);
+				 // console.log(index);
+				//	var row_col = index.split(',');
+					//console.log(row_col);
+					//for(var i in row_col)
+				  //console.log(cell[1],row_col[1]);
+				var neighbors= getNeighborsWithSameColor(board,cell[0],cell[1]);
+				console.log("NBRS=",neighbors);
+				for(nbr_cell in neighbors){
+ console.log("NBR_CELL=",neighbors[nbr_cell]);
+					if(neighbors[nbr_cell] in path2 ===true) {
+						 
+						nbr++;
+						if(nbr==2)
+						check[index]=1;
+						//if(nbr>2)
+						//check[index]=0;
+							//return true;
+					}
+				}
+			}
+		//}
+		console.log("check2=",check);
+		
+	for(var index in check){
+			if(check[index]===0) {
+				return false;
+			}
+			if(check[index]===1) {
+				var nbrC=0;
+				var cell = path[index];
+				var neighbors= getNeighborsWithSameColor(board,cell[0],cell[1]);
+				for(nbr_cell in neighbors){
+					
+						nbrC++;
+						if(nbrC==path.length-1){
+						return false;
+				     }
+				}
+				
+			}
+		}	
+			var path = getConnectedPath(board,row,col);
+		var neighbors= getNeighborsWithSameColor(board,row,col);
 		var count=0;
 		var nbr=0;
 //		console.log(path);
@@ -257,48 +327,71 @@ Checks for a win by connecting  a loop around one or more cells
 				//  console.log(index);
 				//	var row_col = index.split(',');
 				//	console.log(row_col);
+				var nbrStash=[];
+				var prev;
+				var xCount=0;
 				for(nbr_cell in neighbors){
 
 					if(angular.equals(path[index],neighbors[nbr_cell])) {
-						//  console.log("cell",neighbors[nbr_cell]);
-						nbr++;
-						if(nbr==2)
-							return true;
+						  console.log("nbr-cell",neighbors[nbr_cell]);
+						var cellN=neighbors[nbr_cell];
+						var nbr_nbr= getNeighborsWithSameColor(board,cellN[0],cellN[1]);
+						console.log("PREV=",prev);
+						for (ind in nbr_nbr) {
+							console.log(nbr_nbr[ind]);
+							if(angular.equals(nbr_nbr[ind],prev)) {
+							xCount++;
+						console.log("XCOUNT=",xCount)	;
+						}
+//nbrStash[neighbors[nbr_cell]].add(nbr_nbr[ind]);
+						}
+						prev=neighbors[nbr_cell];
+						// nbr++;
+						// if(nbr>1)
+						// 	return true;
 					}
 				}
+				if(xCount>neighbors.length-2){
+					return false;
+				}
+		//		console.log(nbrStash);
 			}
 		}
-		return false;
+		return true;
 		
 	}
 		function getConnectedPathForRing(board,row,col) {	
 		var queue = [];
 		queue.push([row,col]);
 		var came_from = [];
-		came_from[[row,col]]=[[-1],[-1]];
-
+		came_from[[row,col]]=[-1,-1];
+		var nbr=[];
+var count=0;
+var ret=[];
+ret.push([row,col]);
 		//Perform search in the queue for finding a path
 		while (queue.length>0) {
+
 			var current = queue.shift();
 			//console.log("current",current);
 			var cells = getNeighborsWithSameColor(board,current[0],current[1]);
 			//console.log("NeighborsWithSameColor",cells);
 			for (var next in cells) {
+				
 				//console.log(next,cells[next]);
-				if(cells[next] in came_from == false)
-				{
+				if(cells[next] in came_from === false)
+				{	//count++;
+					nbr[cells[next]]=1;
 					queue.push(cells[next]);
-					came_from[cells[next]] = cells[next];
-					//console.log("came_from",came_from[cells[next]]);
+					came_from[cells[next]] = current;
+					ret.push(cells[next]);
+				//	console.log("came_from FALLACY",came_from[cells[next]],nbr[cells[next]]);
 				}
-				else if(came_from[cells[next]]===[[-1],[-1]]){
-					queue.push(cells[next]);
-came_from[cells[next]] = cells[next];
-
-					}
+									
 			}
 		}
-		return came_from;
+		//console.log(came_from);
+		return ret;
 	}
 
 
