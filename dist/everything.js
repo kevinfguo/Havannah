@@ -19,7 +19,14 @@ angular.module('myApp', []).factory('gameLogic', function() {
 	 *  13             x x x x x x x x x     
 	 *  14               x x x x x x x x 
 	 */
-
+Array.prototype.contains = function(k) {
+  for(var i=0; i < this.length; i++){
+    if(this[i] == k){
+      return true;
+    }
+  }
+  return false;
+}
 
 //	the boundary of horizontal direction
 	var horIndex = [[0, 8], [0, 9], [0, 10], [0, 11], [0, 12], [0, 13],[0,14],[0,15],
@@ -98,7 +105,7 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 
 	function getWinner(board,row,col,turnIndexBeforeMove) {
 
-		if (getBridgeWin(board,row,col)==true || getForkWin(board,row,col)==true || getRingWin(board,row,col)==true){
+		if (getBridgeWin(board,row,col)==true || getForkWin(board,row,col)==true || getRingWin2(board,row,col)==true){
 			if(board[row][col]=='B') {
 				return 'B';
 			}
@@ -135,15 +142,15 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 			var col = deltaValue.col;
 			var board = stateBeforeMove.board;
 			var expectedMove = createMove(board, row, col, turnIndexBeforeMove);
-
+console.log(expectedMove);
 			if(!isInsideBoard(row,col)){ return false;}
 			if (!angular.equals(move, expectedMove)) {
-				// console.log(expectedMove, "move not equal to exp move");
+				 console.log(expectedMove, "move not equal to exp move");
 				return false;
 			}
 		} catch (e) {
 			// if there are any exceptions then the move is illegal
-			//  console.log("exception");
+			  console.log("exception");
 			return false;
 		}
 		//console.log(expectedMove);
@@ -234,6 +241,110 @@ Checks for a win by connecting any three edges of the board
 		return false;
 	}
 
+	function getRingWin2(board, row,col){
+		console.log(board);
+		var color = board[row][col];
+		var neighbors =getNeighborsWithSameColor(board,row,col),flag=0;
+		if(neighbors.length >1){
+			if(neighbors.length ==2){
+				for( i in getNeighborsWithSameColor(board,neighbors[0][0],neighbors[0][1])){
+					if(i[0]==neighbors[1][0] && i[1]==neighbors[1][1]){
+						flag=1;
+						break;
+					}
+				}
+			}
+		}
+
+		if(flag == 1 )
+			return false;
+
+		neighbors =  getNeighborsWithDiffColorNotZ(board, row,col,color);
+		var x=-1,x=-1;
+		
+        console.log(neighbors);
+		for(var i=0 ; i<neighbors.length; i++){
+
+			var board2 =angular.copy(board);
+			/*for(var j=0;j<15;j++){
+				board2.push([]);
+				for(var k=0;k<15;k++ ){
+					board2[j].push(board[j][k]);
+				}					
+			}*/
+
+			board2[row][col]="Z";
+			var  cell;
+			flag =0;
+			var neighbors2=[];
+			neighbors2.push(neighbors[i]);
+			while(neighbors2.length != 0){
+				cell = neighbors2.pop();
+				board2[cell[0]][cell[1]] ="Z";
+				
+				
+				for(k=0; k<6; k++){
+					if(cell[0] == edge1[k][0] && cell[1] == edge1[k][1]) {
+
+						flag=1;
+						break;
+					}
+
+					if(cell[0] == edge2[k][0] && cell[1] == edge2[k][1]) {
+											flag=1;
+											break;
+										}
+
+					if(cell[0] == edge3[k][0] && cell[1] == edge3[k][1]) {
+											flag=1;
+											break;
+										}
+
+					if(cell[0] == edge4[k][0] && cell[1] == edge4[k][1]) {
+											flag=1;
+											break;
+										}
+
+					if(cell[0] == edge5[k][0] && cell[1] == edge5[k][1]) {
+											flag=1;
+											break;
+										}
+
+					if(cell[0] == edge6[k][0] && cell[1] == edge6[k][1]) {
+											flag=1;
+											break;
+										}
+
+					if(cell[0] == cornerCells[k][0] && cell[1] == cornerCells[k][1]) {
+											flag=1;
+											break;
+										}
+				}
+
+				neighbors2 = neighbors2.concat(getNeighborsWithDiffColorNotZ(board2,cell[0],cell[1],color));
+				//console.log(neighbors2);
+			}
+
+			if(flag ==0){
+				console.log("trueee");
+				return true;
+
+			}
+		}
+		console.log("reached here");
+		return false;
+
+	}
+
+	function notInSet(board,row1,col1,cellSet){
+		for(i in cellSet){
+			if(i[0]== row1 && i[1]== col1){
+				return false;
+			}
+		}
+		return true;
+	}
+ 
 	/*
 Checks for a win by connecting  a loop around one or more cells
 	 */
@@ -244,20 +355,20 @@ Checks for a win by connecting  a loop around one or more cells
 		var check=[]
 		var count=0;
 		
-		console.log("PATH=",path);
+//		console.log("PATH=",path);
 		
 		//var path_cell = Object.keys(path);
 
 		for(var index in path){
 			check[index]=0;
 		}
-console.log("check1=",check);
+//console.log("check1=",check);
 		// if(count>5) {
 			for(var index in path){
 				var nbr=0;
 					var cell = path[index];
 					var rowC,colC;
-				  console.log("CELL=",cell,"ROW=",cell[0],"COL=",cell[1]);
+	//			  console.log("CELL=",cell,"ROW=",cell[0],"COL=",cell[1]);
 				//   for(var i in cell){
 				//   rowC=cell[i];
 				//   console.log(cell[i]);
@@ -272,10 +383,10 @@ console.log("check1=",check);
 					//console.log(row_col);
 					//for(var i in row_col)
 				  //console.log(cell[1],row_col[1]);
-				var neighbors= getNeighborsWithSameColor(board,cell[0],cell[1]);
-				console.log("NBRS=",neighbors);
+				var neighbors= getNeighborsWithSameColor(board,cell[0],cell[1],color);
+		//		console.log("NBRS=",neighbors);
 				for(nbr_cell in neighbors){
- console.log("NBR_CELL=",neighbors[nbr_cell]);
+// console.log("NBR_CELL=",neighbors[nbr_cell]);
 					if(neighbors[nbr_cell] in path2 ===true) {
 						 
 						nbr++;
@@ -288,7 +399,7 @@ console.log("check1=",check);
 				}
 			}
 		//}
-		console.log("check2=",check);
+	//	console.log("check2=",check);
 		
 	for(var index in check){
 			if(check[index]===0) {
@@ -333,15 +444,15 @@ console.log("check1=",check);
 				for(nbr_cell in neighbors){
 
 					if(angular.equals(path[index],neighbors[nbr_cell])) {
-						  console.log("nbr-cell",neighbors[nbr_cell]);
+					//	  console.log("nbr-cell",neighbors[nbr_cell]);
 						var cellN=neighbors[nbr_cell];
 						var nbr_nbr= getNeighborsWithSameColor(board,cellN[0],cellN[1]);
-						console.log("PREV=",prev);
+					//	console.log("PREV=",prev);
 						for (ind in nbr_nbr) {
-							console.log(nbr_nbr[ind]);
+				//			console.log(nbr_nbr[ind]);
 							if(angular.equals(nbr_nbr[ind],prev)) {
 							xCount++;
-						console.log("XCOUNT=",xCount)	;
+					//	console.log("XCOUNT=",xCount)	;
 						}
 //nbrStash[neighbors[nbr_cell]].add(nbr_nbr[ind]);
 						}
@@ -455,7 +566,29 @@ ret.push([row,col]);
 		return cells;
 	}
 
+	function getNeighborsWithDiffColorNotZ(board,row,col,color){
+		var cells = [];
+		if(isInsideBoard(row-1,col) && (board[row-1][col]!="Z") &&(board[row-1][col] != color)) {
+			cells.push([row-1,col]);
+		}	
+		if(isInsideBoard(row-1,col-1)&& (board[row-1][col-1]!="Z") && (board[row-1][col-1] != color)) {
+			cells.push([row-1,col-1]);
+		}
+		if(isInsideBoard(row,col-1) && (board[row][col-1]!="Z") && (board[row][col-1] != color)) {
+			cells.push([row,col-1]);
+		}
+		if(isInsideBoard(row,col+1) && (board[row][col+1]!="Z") && (board[row][col+1] != color)) {
+			cells.push([row,col+1]);
+		}
 
+		if(isInsideBoard(row+1,col+1) && (board[row+1][col+1]!="Z") && (board[row+1][col+1] != color)) {
+			cells.push([row+1,col+1]);
+		}
+		if(isInsideBoard(row+1,col)  && (board[row+1][col]!="Z") && (board[row+1][col] != color)) {
+			cells.push([row+1,col]);
+		}
+		return cells;
+	}
 
 	/*
 	Check whether the row or column indexed is valid by checking if it is inside the board

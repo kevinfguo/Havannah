@@ -3,7 +3,7 @@ describe('Havannah', function() {
   'use strict';
 
   beforeEach(function() {
-    browser.get('http://localhost:33940/game.min.html');
+    browser.get('http://localhost:33940/game.html');
   });
 
 
@@ -13,7 +13,11 @@ describe('Havannah', function() {
   }
 
   function getPiece(row, col, pieceKind) {
-	//  console.log(element(by.id('e2e_test_piece' + pieceKind + '_' + row + 'x' + col)));
+	//  element(by.id('e2e_test_piece' + pieceKind + '_' + row + 'x' + col)).then(function (styleString) {
+		//  console.log(styleString);
+		//});
+
+//	  console.log(element(by.id('e2e_test_piece' + pieceKind + '_' + row + 'x' + col)));
     return element(by.id('e2e_test_piece'+pieceKind+'_' + row + 'x' + col));
   }
 
@@ -27,8 +31,10 @@ catch(Exception ){
 	return false;}
 return false;
 */ 
-	  expect(getPiece(row, col, "R").isDisplayed()).toEqual(pieceKind === "R" ? true : false);
-   // expect((getPiece(row, col, '').isDisplayed())? true : false);
+	  
+    console.log(getPiece(row, col, "R").isDisplayed());
+    expect(getPiece(row, col, "R").isDisplayed()).toEqual(pieceKind === "R" ? true : false);
+   // expect((getPiece(row, col, '').isDisplayed())? false : true);
     expect(getPiece(row, col, "B").isDisplayed()).toEqual(pieceKind === "B" ? true : false);
   }
 
@@ -82,17 +88,15 @@ return false;
   
   it('should have an empty Havannah board', function () {
 var boardT=getInitialBoard();
-    expectBoard(
-        boardT);
+    expectBoard(boardT);
   });
 
 //fails because getPiece does not return an element
-  it('1: should show R if I click in 0x0', function () {
+  iit('1: should show R if I click in 0x0', function () {
 	  var boardT=getInitialBoard();
 	  boardT[0][0]="R";
     clickDivAndExpectPiece(0, 0, "R");
-    expectBoard(
-            boardT);
+//  expectBoard(boardT);
   });
   
   it('2: should show R if I click in 0x0', function () {
@@ -114,7 +118,7 @@ var boardT=getInitialBoard();
 
   it('should end game if B wins by forming a bridge', function () {
 	  var boardT=getInitialBoard();
-		for(i=0; i<8; ++i) {
+		for(var i=0; i<8; ++i) {
       boardT[0][i]='B';
 			clickDivAndExpectPiece(0, i, "B");
 		}
@@ -125,8 +129,8 @@ var boardT=getInitialBoard();
    var horIndex = [[0, 8], [0, 9], [0, 10], [0, 11], [0, 12], [0, 13],[0,14],[0,15],
                     [1,15], [2, 15], [3, 15], [4, 15], [5, 15],[6,15],[7,15]];
     var boardT=getInitialBoard();
-    for(i=0; i<15; ++i){
-      for(j=horIndex[i][0]; j<horIndex[i][1]; ++j){
+    for(var i=0; i<15; ++i){
+      for(var j=horIndex[i][0]; j<horIndex[i][1]; ++j){
       boardT[i][j]='B';
       clickDivAndExpectPiece(i, j, "B");
 
@@ -140,8 +144,8 @@ var boardT=getInitialBoard();
     var boardT=getInitialBoard();
     clickDivAndExpectPiece(2, 2, "B");
     
-    for(i=1; i<4; ++i) {
-      for(j=1; j<4; ++j) {
+    for(var i=1; i<4; ++i) {
+      for(var j=1; j<4; ++j) {
         boardT[i][j]='R';
         clickDivAndExpectPiece(i, j, "R");
       }
@@ -159,11 +163,11 @@ var boardT=getInitialBoard();
   it("Check  B gets a Win by forming a Fork", function() {
     var board4=getInitialBoard();
        clickDivAndExpectPiece(0, 1, "B");
-    for(i=0; i<9; ++i) {
+    for(var i=0; i<9; ++i) {
       board4[i][1]='B';
        clickDivAndExpectPiece(i, 1, "B");
     }
-    for(i=1; i<15; ++i) {
+    for(var i=1; i<15; ++i) {
       board4[8][i]='B';
        clickDivAndExpectPiece(8, i, "B");
     }

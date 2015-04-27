@@ -9,7 +9,7 @@
   .run(function(gameLogic) {
   //"Manual testing" --- expected result is [true, true, false].
     var board = gameLogic.setBoard();
-    board[0][0] = 'R';
+    board[2][9] = 'R';
     var board2 = angular.copy(board);
     board2[0][1] = 'B';   
     var board3=gameLogic.setBoard();
@@ -118,8 +118,14 @@
         move: [{setTurn: {turnIndex : 0}},
         {set: {key: 'board', value: nextBoard}},
         {set: {key: 'delta', value: {row: 0, col: 4}}}]}),
+        
+        gameLogic.getConnectedPathForRing(board5,1,1),
         */
-        gameLogic.getConnectedPathForRing(board5,1,1)
+        gameLogic.createMove(board,0,0,0),
+         gameLogic.isMoveOk({turnIndexBeforeMove: 0, stateBeforeMove: {}, 
+        move: [{setTurn: {turnIndex : 1}},
+      {set: {key: 'board', value: board}},
+      {set: {key: 'delta', value: {row: 2, col: 9}}}]})
         
   ]);
   

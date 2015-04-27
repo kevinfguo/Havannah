@@ -34,12 +34,58 @@ describe("In Havannah", function() {
 	it(" 1:placing R in 0x0 from initial state is legal", function() {
 		var board = _gameLogic.setBoard();
 		board[0][0] = 'R';
+		console.log("oxo");
 		expectMoveOk(0,{},[{setTurn: {turnIndex : 1}},
 		                   {set: {key: 'board', value: board}},
 		                   {set: {key: 'delta', value: {row: 0, col: 0}}}
 		                   ])
 	});
 
+it(" 1:placing R in 2x9 from initial state is legal", function() {
+	console.log("2x9");
+		expect(_gameLogic.isMoveOk({move:[{setTurn:{turnIndex:1}},
+		{set:{key:"board",value:[["","","","","","","","",undefined,undefined,undefined,undefined,undefined,undefined],
+		["","","","","","","","","",undefined,undefined,undefined,undefined,undefined],
+		["","","","","","","","","","R",undefined,undefined,undefined,undefined],
+		["","","","","","","","","","","",undefined,undefined,undefined],
+		["","","","","","","","","","","","",undefined,undefined],
+		["","","","","","","","","","","","","",undefined],
+		["","","","","","","","","","","","","",""],
+		["","","","","","","","","","","","","","",""],
+		[undefined,"","","","","","","","","","","","","",""],
+		[undefined,undefined,"","","","","","","","","","","","",""],
+		[undefined,undefined,undefined,"","","","","","","","","","","",""],
+		[undefined,undefined,undefined,undefined,"","","","","","","","","","",""],
+		[undefined,undefined,undefined,undefined,undefined,"","","","","","","","","",""],
+		[undefined,undefined,undefined,undefined,undefined,undefined,"","","","","","","","",""],
+		[undefined,undefined,undefined,undefined,undefined,undefined,undefined,"","","","","","","",""]]}},
+		{set:{key:"delta",value:{row:2,col:9}}}],
+		turnIndexBeforeMove:0,stateBeforeMove:{}})).toBe(true);
+		console.log("end");
+	});
+
+
+it(" 1:placing R in 2x9 from initial state is legal", function() {
+	var board = _gameLogic.setBoard();
+		//board[2][9] = 'R';
+		expect(_gameLogic.createMove(board,2,9,0)).toBe([{ setTurn : { turnIndex : 1 } }, { set : { key : 'board', value : [["","","","","","","","",undefined,undefined,undefined,undefined,undefined,undefined],
+		["","","","","","","","","",undefined,undefined,undefined,undefined,undefined],
+		["","","","","","","","","","R",undefined,undefined,undefined,undefined],
+		["","","","","","","","","","","",undefined,undefined,undefined],
+		["","","","","","","","","","","","",undefined,undefined],
+		["","","","","","","","","","","","","",undefined],
+		["","","","","","","","","","","","","",""],
+		["","","","","","","","","","","","","","",""],
+		[undefined,"","","","","","","","","","","","","",""],
+		[undefined,undefined,"","","","","","","","","","","","",""],
+		[undefined,undefined,undefined,"","","","","","","","","","","",""],
+		[undefined,undefined,undefined,undefined,"","","","","","","","","","",""],
+		[undefined,undefined,undefined,undefined,undefined,"","","","","","","","","",""],
+		[undefined,undefined,undefined,undefined,undefined,undefined,"","","","","","","","",""],
+		[undefined,undefined,undefined,undefined,undefined,undefined,undefined,"","","","","","","",""]]}},
+		{ set : { key : 'delta', value : { row : 2, col : 9 } } } ]);
+	
+	});
 	it(" placing B in 0x1 from initial state is legal", function() {
 		var board = setBoard();
 		board[0][0] = 'R';
@@ -240,8 +286,8 @@ describe("In Havannah", function() {
 	
 	
 	
-	it("null move is illegal", function() {
-		expectIllegalMove(0, {}, null);
+	it("undefined move is illegal", function() {
+		expectIllegalMove(0, {}, undefined);
 	});
 
 	it("move without board is illegal", function() {
