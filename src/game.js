@@ -199,7 +199,7 @@ function getColumn(row,col) {
 //      
 
     function sendComputerMove() {
-//      var possMoves = gameLogic.getPossibleMoves($scope.board,$scope.turnIndex);
+      var possMoves = gameLogic.getPossibleMoves($scope.board,$scope.turnIndex);
 //      console.log('Possible Moves=',possMoves);
      var randomNo = Math.floor(Math.random()*possMoves.length);
     // console.log('random move=',  possMoves[randomNo]);
