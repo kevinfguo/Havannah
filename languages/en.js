@@ -1,3 +1,3 @@
 window.angularTranslations = {
-  TICTACTOE_GAME: "TicTacToe"
+  HAVANNAH_GAME: "Havannah"
 };
