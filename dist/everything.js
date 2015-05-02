@@ -648,9 +648,9 @@ ret.push([row,col]);
 
   .controller('Ctrl',
       ['$scope', '$rootScope','$log', '$timeout',
-       'gameService', 'stateService', 'gameLogic' ,'resizeGameAreaService',
+       'gameService', 'stateService', 'gameLogic' ,'resizeGameAreaService',  'dragAndDropService',
       function ($scope, $rootScope, $log, $timeout,
-        gameService, stateService, gameLogic, resizeGameAreaService) {
+        gameService, stateService, gameLogic, resizeGameAreaService,  dragAndDropService) {
 
     'use strict';
 
@@ -687,7 +687,8 @@ ret.push([row,col]);
      
      var rowsNum = 15;
      var colsNum = 15;
-     window.handleDragEvent = handleDragEvent;
+     //window.handleDragEvent = handleDragEvent;
+     dragAndDropService.addDragListener("gameArea", handleDragEvent);
 
      function handleDragEvent(type, clientX, clientY) {
        // Center point in gameArea
