@@ -22,12 +22,7 @@
     <script>window.angularTranslationLanguages = ['en', 'hn'];</script>
  <script src="http://yoav-zibin.github.io/emulator/dist/turnBasedServices.2.min.js"></script>
 
-    
 
-  <!-- /build -->
-<!-- <script crossorigin="anonymous" src="http://d3js.org/d3.v3.min.js"></script>
-<script crossorigin="anonymous" src="http://d3js.org/topojson.v1.min.js"></script>
--->
   <link rel="stylesheet" type="text/css" href="http://yoav-zibin.github.io/emulator/main.css">
   <link rel="stylesheet" type="text/css" href="game.css">
   
@@ -155,7 +150,6 @@
 
 
 
-  
     <div ng-repeat="row in numbersTo(0,7) ">
       <div  ng-repeat="col in numbersTo(0,(14-row)) " >
         <img id="clickToDragPiece" style="position:absolute; top:{{6.6 * row + 53}}%; left:{{7*col + ( row) * (5 - 6/4) }}%; width:8%; height:8%;" src="imgs/hexagon2.png">
