@@ -88,7 +88,6 @@ module.exports = function(grunt) {
             'http://yoav-zibin.github.io/emulator/dist/turnBasedServices.2.min.js',
             'imgs/hexagon2.png', 'imgs/P.png', 'imgs/B.png',
             'http://yoav-zibin.github.io/emulator/main.css', 
-            'http://yoav-zibin.github.io/emulator/angular-translate/angular-translate.min.js ',
             'languages/en.js','languages/hn.js'
             
           ],
