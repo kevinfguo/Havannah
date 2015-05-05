@@ -621,6 +621,7 @@ ret.push([row,col]);
 					//var randomRow = Math.floor(Math.random()*i);
 					var randomCol = Math.floor(Math.random()*j);
 					possibleMoves=createMove(board, i, randomCol, turnIndexBeforeMove);
+					return possibleMoves;
 				} catch (e) {
 					// The cell in that position was full.
 				}

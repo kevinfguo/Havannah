@@ -621,6 +621,7 @@ ret.push([row,col]);
 					//var randomRow = Math.floor(Math.random()*i);
 					var randomCol = Math.floor(Math.random()*j);
 					possibleMoves=createMove(board, i, randomCol, turnIndexBeforeMove);
+					return possibleMoves;
 				} catch (e) {
 					// The cell in that position was full.
 				}
@@ -854,7 +855,9 @@ function getColumn(row,col) {
 //      console.log('Possible Moves=',possMoves);
 //     var randomNo = Math.floor(Math.random()*possMoves.length);
     // console.log('random move=',  possMoves[randomNo]);
-   
+    while(possMove==null) {
+      possMove = gameLogic.getPossibleMoves($scope.board,$scope.turnIndex);
+     }
      gameService.makeMove(possMove); 
    
      

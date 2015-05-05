@@ -204,7 +204,9 @@ function getColumn(row,col) {
 //      console.log('Possible Moves=',possMoves);
 //     var randomNo = Math.floor(Math.random()*possMoves.length);
     // console.log('random move=',  possMoves[randomNo]);
-   
+    while(possMove==null) {
+      possMove = gameLogic.getPossibleMoves($scope.board,$scope.turnIndex);
+     }
      gameService.makeMove(possMove); 
    
      
