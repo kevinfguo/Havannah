@@ -611,12 +611,16 @@ ret.push([row,col]);
 	 * Returns an empty array if the game is over.
 */
 	function getPossibleMoves(board, turnIndexBeforeMove) {
-		var possibleMoves = [];
+		var possibleMoves =null;
 		var i, j;
+			var boardCopy ;
 		for(i=0; i<15; ++i){
 			for(j=horIndex[i][0]; j<horIndex[i][1]; ++j){
 				try {
-					possibleMoves.push(createMove(board, i, j, turnIndexBeforeMove));
+					//boardCopy = angular.copy(board);
+					//var randomRow = Math.floor(Math.random()*i);
+					var randomCol = Math.floor(Math.random()*j);
+					possibleMoves=createMove(board, i, randomCol, turnIndexBeforeMove);
 				} catch (e) {
 					// The cell in that position was full.
 				}

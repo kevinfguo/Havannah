@@ -204,9 +204,9 @@ function getColumn(row,col) {
 //      console.log('Possible Moves=',possMoves);
 //     var randomNo = Math.floor(Math.random()*possMoves.length);
     // console.log('random move=',  possMoves[randomNo]);
-    while(possMove==null) {
+   
      gameService.makeMove(possMove); 
-   }
+   
      
        // gameService.makeMove(aiService.createComputerMove($scope.board, $scope.turnIndex,
        //     // at most 1 second for the AI to choose a move (but might be much quicker)
