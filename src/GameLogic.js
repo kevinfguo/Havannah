@@ -641,7 +641,7 @@ ret.push([row,col]);
 				try {
 					//boardCopy = angular.copy(board);
 					
-					var randomCol = Math.random() * (horIndex[i][1] - horIndex[i][0]) + horIndex[i][0];
+					var randomCol = Math.floor(Math.random() * (horIndex[i][1] - horIndex[i][0]) + horIndex[i][0]);
 					possibleMoves=createMove(board, rowInd[i], randomCol, turnIndexBeforeMove);
 					return possibleMoves;
 				} catch (e) {
