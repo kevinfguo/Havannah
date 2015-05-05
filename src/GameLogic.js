@@ -614,13 +614,13 @@ ret.push([row,col]);
 		var possibleMoves =null;
 		var i, j;
 			var boardCopy ;
-		for(i=0; i<15; ++i){
+		for(i=14; i>-1; --i){
 			for(j=horIndex[i][0]; j<horIndex[i][1]; ++j){
 				try {
 					//boardCopy = angular.copy(board);
-					//var randomRow = Math.floor(Math.random()*i);
+					var randomRow = Math.floor(Math.random()*i);
 					var randomCol = Math.floor(Math.random()*j);
-					possibleMoves=createMove(board, i, randomCol, turnIndexBeforeMove);
+					possibleMoves=createMove(board, randomRow, randomCol, turnIndexBeforeMove);
 					return possibleMoves;
 				} catch (e) {
 					// The cell in that position was full.
