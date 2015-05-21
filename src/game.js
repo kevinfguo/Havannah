@@ -153,6 +153,7 @@ function getColumn(row,col) {
      }
      function getSquareCenterXY(row, col) {
        var size1 = getSquareWidthHeight();
+       console.log("height=",size1.height,"width=",size1.width);
        var x1;
               if(row%2 === 1){
           x1 = col * size1.width + size1.width / 2;
@@ -161,6 +162,7 @@ function getColumn(row,col) {
        else{
           x1 = col * size1.width + size1.width;
        }
+       console.log(x1, row * size1.height + size1.height / 2);
        return {
          x: x1,
          y: row * size1.height + size1.height / 2
