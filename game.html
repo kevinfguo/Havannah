@@ -46,12 +46,12 @@
 
 </head>
 <body ng-cloak ng-controller="Ctrl" bg-color=black>
-  <div style="position:absolute; top:5px; left: 5px">
+  <div style="position:absolute; top:5px; left: 5px; z-index:10">
     <span ng-click="isHelpModalShown = true"
         class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
   </div>
 
- <div class="overlayModal" ng-show="isHelpModalShown" aria-hidden="true">
+ <div class="overlayModal" ng-class="{zeroOpacity: !isHelpModalShown, oneOpacity: isHelpModalShown}" aria-hidden="true">
     <div class="modal-backdrop in"></div>
     <div class="modal-dialog">
      <div class="modal-content">
