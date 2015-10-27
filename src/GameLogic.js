@@ -3,7 +3,7 @@ angular.module('myApp',  ['ngTouch', 'ui.bootstrap']).factory('gameLogic', funct
 	 * Grid representation:
 	 *
 	 *     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
-	 *   0 x x x x x x x x 
+	 *   0 x x x x x x x x
 	 *   1 x x x x x x x x x
 	 *   2 x x x x x x x x x x
 	 *   3 x x x x x x x x x x x
@@ -13,11 +13,11 @@ angular.module('myApp',  ['ngTouch', 'ui.bootstrap']).factory('gameLogic', funct
 	 *   7 x x x x x x x x x x x x x x x
 	 *   8   x x x x x x x x x x x x x x
 	 *   9     x x x x x x x x x x x x x
-	 *  10       x x x x x x x x x x x x   
-	 *  11         x x x x x x x x x x x     
-	 *  12           x x x x x x x x x x     
-	 *  13             x x x x x x x x x     
-	 *  14               x x x x x x x x 
+	 *  10       x x x x x x x x x x x x
+	 *  11         x x x x x x x x x x x
+	 *  12           x x x x x x x x x x
+	 *  13             x x x x x x x x x
+	 *  14               x x x x x x x x
 	 */
 Array.prototype.contains = function(k) {
   for(var i=0; i < this.length; i++){
@@ -73,9 +73,9 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 		return true;
 	}//Done
 
-	/** 
-	 * Returns the move that should be performed when player 
-	 * with index turnIndexBeforeMove makes a move in cell row X col. 
+	/**
+	 * Returns the move that should be performed when player
+	 * with index turnIndexBeforeMove makes a move in cell row X col.
 	 */
 	function createMove(board, row, col, turnIndexBeforeMove) {
 		if(board === undefined) board = setBoard();
@@ -90,7 +90,7 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 		var firstOperation;
 		if (winner !== '' || isTie(boardAfterMove)) {
 			// Game over.
-			firstOperation = {endMatch: {endMatchScores: 
+			firstOperation = {endMatch: {endMatchScores:
 				(winner === 'R' ? [1, 0] : (winner === 'B' ? [0, 1] : [0, 0]))}};
 			//console.log("game over");
 		} else {
@@ -261,7 +261,7 @@ Checks for a win by connecting any three edges of the board
 
 		neighbors =  getNeighborsWithDiffColorNotZ(board, row,col,color);
 		var x=-1,x=-1;
-		
+
         console.log(neighbors);
 		for(var i=0 ; i<neighbors.length; i++){
 
@@ -270,7 +270,7 @@ Checks for a win by connecting any three edges of the board
 				board2.push([]);
 				for(var k=0;k<15;k++ ){
 					board2[j].push(board[j][k]);
-				}					
+				}
 			}*/
 
 			board2[row][col]="Z";
@@ -281,8 +281,8 @@ Checks for a win by connecting any three edges of the board
 			while(neighbors2.length != 0){
 				cell = neighbors2.pop();
 				board2[cell[0]][cell[1]] ="Z";
-				
-				
+
+
 				for(k=0; k<6; k++){
 					if(cell[0] == edge1[k][0] && cell[1] == edge1[k][1]) {
 
@@ -344,19 +344,19 @@ Checks for a win by connecting any three edges of the board
 		}
 		return true;
 	}
- 
+
 	/*
 Checks for a win by connecting  a loop around one or more cells
 	 */
 	function getRingWin(board,row,col) {
 		var path = getConnectedPathForRing(board,row,col);
 		var path2 = getConnectedPath(board,row,col);
-		
+
 		var check=[]
 		var count=0;
-		
+
 //		console.log("PATH=",path);
-		
+
 		//var path_cell = Object.keys(path);
 
 		for(var index in path){
@@ -388,7 +388,7 @@ Checks for a win by connecting  a loop around one or more cells
 				for(nbr_cell in neighbors){
 // console.log("NBR_CELL=",neighbors[nbr_cell]);
 					if(neighbors[nbr_cell] in path2 ===true) {
-						 
+
 						nbr++;
 						if(nbr==2)
 						check[index]=1;
@@ -400,7 +400,7 @@ Checks for a win by connecting  a loop around one or more cells
 			}
 		//}
 	//	console.log("check2=",check);
-		
+
 	for(var index in check){
 			if(check[index]===0) {
 				return false;
@@ -410,15 +410,15 @@ Checks for a win by connecting  a loop around one or more cells
 				var cell = path[index];
 				var neighbors= getNeighborsWithSameColor(board,cell[0],cell[1]);
 				for(nbr_cell in neighbors){
-					
+
 						nbrC++;
 						if(nbrC==path.length-1){
 						return false;
 				     }
 				}
-				
+
 			}
-		}	
+		}
 			var path = getConnectedPath(board,row,col);
 		var neighbors= getNeighborsWithSameColor(board,row,col);
 		var count=0;
@@ -469,9 +469,9 @@ Checks for a win by connecting  a loop around one or more cells
 			}
 		}
 		return true;
-		
+
 	}
-		function getConnectedPathForRing(board,row,col) {	
+		function getConnectedPathForRing(board,row,col) {
 		var queue = [];
 		queue.push([row,col]);
 		var came_from = [];
@@ -488,7 +488,7 @@ ret.push([row,col]);
 			var cells = getNeighborsWithSameColor(board,current[0],current[1]);
 			//console.log("NeighborsWithSameColor",cells);
 			for (var next in cells) {
-				
+
 				//console.log(next,cells[next]);
 				if(cells[next] in came_from === false)
 				{	//count++;
@@ -498,7 +498,7 @@ ret.push([row,col]);
 					ret.push(cells[next]);
 				//	console.log("came_from FALLACY",came_from[cells[next]],nbr[cells[next]]);
 				}
-									
+
 			}
 		}
 		//console.log(came_from);
@@ -506,7 +506,7 @@ ret.push([row,col]);
 	}
 
 
-	function getConnectedPath(board,row,col) { 
+	function getConnectedPath(board,row,col) {
 
 		var queue = [];
 		queue.push([row,col]);
@@ -546,7 +546,7 @@ ret.push([row,col]);
 		var cells = [];
 		if(isInsideBoard(row-1,col) && board[row-1][col]!='' && (board[row-1][col] === board[row][col])) {
 			cells.push([row-1,col]);
-		}	
+		}
 		if(isInsideBoard(row-1,col-1) && board[row-1][col-1]!='' && (board[row-1][col-1] === board[row][col])) {
 			cells.push([row-1,col-1]);
 		}
@@ -570,7 +570,7 @@ ret.push([row,col]);
 		var cells = [];
 		if(isInsideBoard(row-1,col) && (board[row-1][col]!="Z") &&(board[row-1][col] != color)) {
 			cells.push([row-1,col]);
-		}	
+		}
 		if(isInsideBoard(row-1,col-1)&& (board[row-1][col-1]!="Z") && (board[row-1][col-1] != color)) {
 			cells.push([row-1,col-1]);
 		}
@@ -597,7 +597,7 @@ ret.push([row,col]);
 
 		if(row>-1 && row<15 && col>-1 && col<15) {
 			if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
-				//console.log(col,(horIndex[row][0]-1));	
+				//console.log(col,(horIndex[row][0]-1));
 				return true;
 			}
 		}
@@ -614,7 +614,7 @@ ret.push([row,col]);
 		var possibleMoves =null;
 		var i, j;
 			var boardCopy ;
-		
+
 		var rowInd = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14];
 
 		var shuffleArray = function(array) {
@@ -640,7 +640,7 @@ ret.push([row,col]);
 			for(j=horIndex[i][0]; j<horIndex[i][1]; ++j){
 				try {
 					//boardCopy = angular.copy(board);
-					
+
 					var randomCol = Math.floor(Math.random() * (horIndex[i][1] - horIndex[i][0]) + horIndex[i][0]);
 					possibleMoves=createMove(board, rowInd[i], randomCol, turnIndexBeforeMove);
 					return possibleMoves;
@@ -652,7 +652,7 @@ ret.push([row,col]);
 		return possibleMoves;
 	}
 
-	 
+
 
 	return {
 

@@ -15,10 +15,10 @@ angular.module('myApp')
         for (var i=start; i<end; i++) {
           res[i] = i;
         }
-      
+
         return res;
       }
- 	
+
  	  $scope.getStyle = function (row, col) {
  	        var cell = $scope.board[row][col];
  	        if (cell === 'R') {
@@ -38,7 +38,7 @@ angular.module('myApp')
      var verticalDraggingLine = document.getElementById("verticalDraggingLine");
    //  var clickToDragPiece = document.getElementById("clickToDragPiece");
      var gameArea = document.getElementById("gameArea");
-     
+
      var rowsNum = 15;
      var colsNum = 15;
      //window.handleDragEvent = handleDragEvent;
@@ -46,7 +46,7 @@ angular.module('myApp')
 
      function handleDragEvent(type, clientX, clientY) {
        // Center point in gameArea
-    	 
+
        var x = clientX - gameArea.offsetLeft;
        var y = clientY - gameArea.offsetTop;
        console.log(x,y,clientX,clientY,gameArea.clientWidth,gameArea.clientHeight);
@@ -58,23 +58,23 @@ angular.module('myApp')
        }
        var horIndex = [[0, 8], [0, 9], [0, 10], [0, 11], [0, 12], [0, 13],[0,14],[0,15],
    	                [1,15], [2, 15], [3, 15], [4, 15], [5, 15],[6,15],[7,15]];
-  
+
       // clickToDragPiece.style.display = "inline";
        draggingLines.style.display = "inline";
        // Inside gameArea. Let's find the containing square's row and col
-       
+
        var row = Math.floor((rowsNum * y) / gameArea.clientHeight);
 //       if (row%2===0)
     	   var col = Math.floor((colsNum * x) / gameArea.clientWidth);
   //     else
     //	   var col = Math.floor((colsNum * x)+1 / gameArea.clientWidth);
    var columns = getColumn(row,col);
-    	 //	if(row>-1 && row<8 ) 
+    	 //	if(row>-1 && row<8 )
     	        var centerXY = getSquareCenterXY(row, col);
 
-    	     //   else 
+    	     //   else
     	     //	   var centerXY = getSquareCenterXYLower(row, col,clientX);
-    	     	   
+
     	         console.log(centerXY,row,col);
               verticalDraggingLine.setAttribute("x1", centerXY.x);
               verticalDraggingLine.setAttribute("x2",  centerXY.x);
@@ -84,15 +84,15 @@ angular.module('myApp')
     	        //rotate vertical line
     	        var rot = "rotate(27.5 "+Math.floor(centerXY.x)+" "+Math.floor(centerXY.y)+")";
     	         verticalDraggingLine.setAttribute("transform",rot);
-    	        
+
     	        var topLeft = getSquareTopLeft(row, col);
 //    	       clickToDragPiece.style.left = topLeft.left + "px";
 //    	       clickToDragPiece.style.top = topLeft.top + "px";
- 
+
    	if(row>-1 && row<15 ) {
 		if(!(columns>(horIndex[row][0]-1) && columns< horIndex[row][1])) {
 			 draggingLines.style.display = "none";
-			         
+
 		}
 	}
 
@@ -104,7 +104,7 @@ angular.module('myApp')
          draggingLines.style.display = "none";
          dragDone(row, columns);
        }
-     
+
      }
 
 
@@ -113,11 +113,11 @@ function getColumn(row,col) {
     if(row==0 || row==1) {
        columns=col-3;
   }
-   
+
   if( row==2||row==3) {
        columns=col-2;
   }
-  
+
   if( row==4 || row==5) {
        columns=col-1;
   }
@@ -127,11 +127,11 @@ function getColumn(row,col) {
     if(row==8 || row==9) {
        columns=col+1;
   }
-   
+
   if( row==10||row==11) {
        columns=col+2;
   }
-  
+
   if( row==12 || row==13) {
        columns=col+3;
   }
@@ -141,7 +141,7 @@ function getColumn(row,col) {
    return columns;
      }
      function getSquareWidthHeight() {
-    
+
        return {
          width : (rowsNum%2==0? ((gameArea.clientWidth / colsNum )- (colsNum * x)/2):gameArea.clientWidth / colsNum),
          height : (rowsNum%2==0? ((gameArea.clientHeight / rowsNum )- (rowsNum * y)/2):gameArea.clientHeight / rowsNum)
@@ -176,7 +176,7 @@ function getColumn(row,col) {
          z:clientX-(50*row)
        };
      }
-       
+
        function getSquareCenterXYLower(row, col,clientX) {
            var size = getSquareWidthHeight();
            return {
@@ -199,7 +199,7 @@ function getColumn(row,col) {
 //       $scope.cols = getIntegersTill(colsNum);
 //       $scope.rowsNum = rowsNum;
 //       $scope.colsNum = colsNum;
-//      
+//
 
     function sendComputerMove() {
       var possMove = gameLogic.getPossibleMoves($scope.board,$scope.turnIndex);
@@ -209,9 +209,9 @@ function getColumn(row,col) {
     while(possMove==null) {
       possMove = gameLogic.getPossibleMoves($scope.board,$scope.turnIndex);
      }
-     gameService.makeMove(possMove); 
-   
-     
+     gameService.makeMove(possMove);
+
+
        // gameService.makeMove(aiService.createComputerMove($scope.board, $scope.turnIndex,
        //     // at most 1 second for the AI to choose a move (but might be much quicker)
        //     {millisecondsLimit: 1000}));
@@ -223,14 +223,14 @@ function getColumn(row,col) {
      /* $scope.delta = params.stateBeforeMove;
       var row = $scope.delta.row;
       var col = $scope.delta.col;
-      
+
       var img = document.getElementById('e2e_test_img_' + row + 'x' + col);
       if (img.className === 'enlarge1')
           img.className = 'enlarge2';
       else
           img.className = 'enlarge1';
       $log.info("current" + img.className);
-      
+
       try {
 var deltaValue = move[2].set.value;
       var row = deltaValue.row;
@@ -398,7 +398,7 @@ function hexProjection(radius) {
           $scope.cellClicked(row, col);
         });
       }
-   
+
     $scope.shouldShowImage = function (row, col) {
       var cell = $scope.board[row][col];
       return cell !== "";

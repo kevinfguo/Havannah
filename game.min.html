@@ -25,7 +25,7 @@
 
   <link rel="stylesheet" type="text/css" href="http://yoav-zibin.github.io/emulator/main.css">
   <link rel="stylesheet" type="text/css" href="game.css">
-  
+
 
 </head>
 <body ng-cloak ng-controller="Ctrl" bg-color=black>
@@ -65,7 +65,7 @@
                   {{ 'RULES_SLIDE2' | translate }}
                   </td>
                   <td>
-                   
+
                   </td>
                 </tr>
               </table>
@@ -141,7 +141,7 @@
      <div   ng-style="getStyle(row, col)" id="{{'e2e_test_div_' + row + 'x' + col}}" style="position:absolute; left:{{7*col + (6.3 - row) * (5 - 6/4) }}%; top:{{6.6 * row+1.5}}%; width:5.5%; height:5.5%;" ng-click="cellClicked(row,col)"   >
     <img class="enlarge0" style="position:absolute;" ng-class="{piece: true, slowlyAppear: shouldSlowlyAppear(row,col)}"  ng-show="isPieceR(row,col)"  ng-show="shouldShowImage(row,col)"    ng-src="{{getImageSrc(row,col)}}"
             id="{{'e2e_test_pieceR_' + row + 'x' + col}}"  >
-  
+
    <img class="enlarge1" style="position:absolute;" ng-class="{piece: true, slowlyAppear: shouldSlowlyAppear(row,col)}" ng-show="isPieceB(row,col)"  ng-show="shouldShowImage(row,col)"    ng-src="{{getImageSrc(row,col)}}"
             id="{{'e2e_test_pieceB_' + row + 'x' + col }}"  >
                 </div>
@@ -156,7 +156,7 @@
         <div   id="{{'e2e_test_div_' + (row+8) + 'x' + (row+1+col)}}" style="position:absolute; top:{{6.6 * row + 54}}%; left:{{7*col + ( 0.35+row) * (5 - 6/4) }}%; width:5.5%; height:5.5%;" ng-click="cellClicked((row+8),(col+row+1))" >
     <img class="enlarge0"style="position:absolute;" ng-class="{piece: true, slowlyAppear: shouldSlowlyAppear((row+8), (row+1+col))}"  ng-show="isPieceR((row+8), (row+1+col))"  ng-show="shouldShowImage((row+8), (row+1+col))"    ng-src="{{getImageSrc((row+8), (row+col+1))}}"
             id="{{'e2e_test_pieceR_' + (row+8) + 'x' + (row+col+1)}}"  >
-  
+
    <img class="enlarge1" style="position:absolute;" ng-class="{piece: true, slowlyAppear: shouldSlowlyAppear((row+8), (row+1+col))}" ng-show="isPieceB((row+8), (row+1+col))"  ng-show="shouldShowImage((row+8), (row+1+col))"    ng-src="{{getImageSrc((row+8), (row+col+1))}}"
             id="{{'e2e_test_pieceB_' + (row+8) + 'x' + (row+col+1)}}"  >
           </div>
@@ -166,4 +166,4 @@
   </div>
 
 </body>
-</html> 
+</html>
