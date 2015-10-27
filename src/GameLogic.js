@@ -1,4 +1,5 @@
-angular.module('myApp',  ['ngTouch', 'ui.bootstrap']).factory('gameLogic', function() {
+//angular.module('myApp',  ['ngTouch', 'ui.bootstrap']).factory('gameLogic', function() {
+angular.module('myApp', ['gameServices']).factory('gameLogic', function() {
 	/*
 	 * Grid representation:
 	 *

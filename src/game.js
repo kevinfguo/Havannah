@@ -2,9 +2,9 @@ angular.module('myApp')
 
   .controller('Ctrl',
       ['$scope', '$rootScope','$log', '$timeout',
-       'gameService', 'stateService', 'gameLogic' ,'resizeGameAreaService',  'dragAndDropService',
+       'gameLogic',
       function ($scope, $rootScope, $log, $timeout,
-        gameService, stateService, gameLogic, resizeGameAreaService,  dragAndDropService) {
+        gameLogic) {
 
     'use strict';
 
