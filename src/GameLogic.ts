@@ -1,5 +1,18 @@
 //angular.module('myApp',  ['ngTouch', 'ui.bootstrap']).factory('gameLogic', function() {
-angular.module('myApp', ['gameServices']).factory('gameLogic', function() {
+// angular.module('myApp', ['gameServices']).factory('gameLogic', function() {
+
+module gameLogic{
+
+  interface IState {
+    board?: Board;
+    delta?: BoardDelta;
+  }
+
+  interface BoardDelta {
+    row: number;
+    col: number;
+    direction : number;
+  }
 
   type Board = string[][];
 	/*
@@ -22,7 +35,7 @@ angular.module('myApp', ['gameServices']).factory('gameLogic', function() {
 	 *  13             x x x x x x x x x
 	 *  14               x x x x x x x x
 	 */
-Array.prototype.contains = function(k) {
+Array.prototype.contains = function(k : any) {
   for(var i=0; i < this.length; i++){
     if(this[i] == k){
       return true;
@@ -64,8 +77,8 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 	 */
 
 	/** Returns true if the game ended in a tie because there are no empty cells. */
-	export function isTie(board) : boolean {
-		var i,j;
+	export function isTie(board : any) : boolean {
+		var i:any,j:any;
 		for(i=0; i<15; ++i) {
 			for(j=horIndex[i][0]; j<horIndex[i][1]; ++j){
 				if(board[i][j] === ''){
@@ -80,7 +93,7 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 	 * Returns the move that should be performed when player
 	 * with index turnIndexBeforeMove makes a move in cell row X col.
 	 */
-	export function createMove(board : Board, row : number, col : number, turnIndexBeforeMove : number) : IMove {
+	export function createMove(board : any, row : any, col : any, turnIndexBeforeMove : any) : any {
 		if(board === undefined) board = setBoard();
 		if (board[row][col] !== '') {
 			throw new Error("One can only make a move in an empty position!");
@@ -90,7 +103,7 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 		boardAfterMove[row][col] = turnIndexBeforeMove === 0 ? 'R' : 'B';
 
 		var winner = getWinner(boardAfterMove,row,col,turnIndexBeforeMove);
-		var firstOperation;
+		var firstOperation : any;
 		if (winner !== '' || isTie(boardAfterMove)) {
 			// Game over.
 			firstOperation = {endMatch: {endMatchScores:
@@ -106,7 +119,7 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 		        {set: {key: 'delta', value: {row: row, col: col}}}];
 	}//done
 
-	export function getWinner(board : Board,row : number,col : number,turnIndexBeforeMove : number) : string {
+	export function getWinner(board : Board,row : any,col : any,turnIndexBeforeMove : any) : string {
 
 		if (getBridgeWin(board,row,col)==true || getForkWin(board,row,col)==true || getRingWin2(board,row,col)==true){
 			if(board[row][col]=='B') {
@@ -123,7 +136,7 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 	}
 
 	export function setBoard() : Board{
-		var i, j;
+		var i : any, j : any;
 		var board = new Array(14);
 		for(i=0; i<15; ++i){
 			board[i] = new Array(14);
@@ -135,7 +148,7 @@ var nonIndex = [[8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14,15
 		return board;
 	}
 
-	export function isMoveOk(params) : boolean {
+	export function isMoveOk(params : any) : boolean {
 		var move = params.move;
 		var turnIndexBeforeMove = params.turnIndexBeforeMove;
 		var stateBeforeMove = params.stateBeforeMove;
@@ -163,7 +176,7 @@ console.log(expectedMove);
 	/*
 	Checks for a win by connecting any two of the six corner cells of the board
 	 */
-	export function getBridgeWin(board:Board,row:number,col:number) : boolean {
+	export function getBridgeWin(board:Board,row:any,col:any) : boolean {
 		var path = getConnectedPath(board,row,col);
 		var count=0;
 //		console.log(path);
@@ -174,7 +187,7 @@ console.log(expectedMove);
 			//  console.log(index);
 			var row_col = index.split(',');
 			//	console.log(row_col);
-			for(k=0; k<7; k++){
+			for(var k=0; k<7; k++){
 				if(angular.equals(row_col,cornerCells[k])) {
 					count ++;
 
@@ -191,7 +204,7 @@ console.log(expectedMove);
 	/*
 Checks for a win by connecting any three edges of the board
 	 */
-	export function getForkWin(board : Board,row : number ,col: number ) : boolean {
+	export function getForkWin(board : Board,row : any ,col: any ) : boolean {
 		var path = getConnectedPath(board,row,col);
 		var count1=0;
 		var count2=0;
@@ -209,7 +222,7 @@ Checks for a win by connecting any three edges of the board
 			//  console.log(index);
 			var row_col = index.split(',');
 			//	console.log(row_col);
-			for(k=0; k<6; k++){
+			for(var k=0; k<6; k++){
 				if(angular.equals(row_col,edge1[k])) {
 					count1 =1;
 					//  console.log("cell",row_col);
@@ -244,13 +257,13 @@ Checks for a win by connecting any three edges of the board
 		return false;
 	}
 
-	export function getRingWin2(board : Board, row :number,col:number) : boolean{
+	export function getRingWin2(board : Board, row :any,col:any) : boolean{
 		console.log(board);
 		var color = board[row][col];
 		var neighbors =getNeighborsWithSameColor(board,row,col),flag=0;
 		if(neighbors.length >1){
 			if(neighbors.length ==2){
-				for( i in getNeighborsWithSameColor(board,neighbors[0][0],neighbors[0][1])){
+				for( var i in getNeighborsWithSameColor(board,neighbors[0][0],neighbors[0][1])){
 					if(i[0]==neighbors[1][0] && i[1]==neighbors[1][1]){
 						flag=1;
 						break;
@@ -266,7 +279,7 @@ Checks for a win by connecting any three edges of the board
 		var x=-1,x=-1;
 
         console.log(neighbors);
-		for(var i=0 ; i<neighbors.length; i++){
+		for(var i : any =0 ; i<neighbors.length; i++){
 
 			var board2 =angular.copy(board);
 			/*for(var j=0;j<15;j++){
@@ -277,16 +290,16 @@ Checks for a win by connecting any three edges of the board
 			}*/
 
 			board2[row][col]="Z";
-			var  cell;
+			var  cell : any;
 			flag =0;
-			var neighbors2=[];
+			var neighbors2 : any[] = [];
 			neighbors2.push(neighbors[i]);
 			while(neighbors2.length != 0){
 				cell = neighbors2.pop();
 				board2[cell[0]][cell[1]] ="Z";
 
 
-				for(k=0; k<6; k++){
+				for( var k=0; k<6; k++){
 					if(cell[0] == edge1[k][0] && cell[1] == edge1[k][1]) {
 
 						flag=1;
@@ -339,8 +352,8 @@ Checks for a win by connecting any three edges of the board
 
 	}
 
-	export function notInSet(board : Board,row1,col1,cellSet) : boolean{
-		for(i in cellSet){
+	export function notInSet(board : Board,row1 : any,col1 : any,cellSet : any) : boolean{
+		for( var i in cellSet){
 			if(i[0]== row1 && i[1]== col1){
 				return false;
 			}
@@ -351,11 +364,11 @@ Checks for a win by connecting any three edges of the board
 	/*
 Checks for a win by connecting  a loop around one or more cells
 	 */
-	export function getRingWin(board,row,col) : boolean {
+	export function getRingWin(board : any,row : any,col : any) : boolean {
 		var path = getConnectedPathForRing(board,row,col);
 		var path2 = getConnectedPath(board,row,col);
 
-		var check=[]
+		var check : any[]=[]
 		var count=0;
 
 //		console.log("PATH=",path);
@@ -370,7 +383,7 @@ Checks for a win by connecting  a loop around one or more cells
 			for(var index in path){
 				var nbr=0;
 					var cell = path[index];
-					var rowC,colC;
+					var rowC : any,colC : any;
 	//			  console.log("CELL=",cell,"ROW=",cell[0],"COL=",cell[1]);
 				//   for(var i in cell){
 				//   rowC=cell[i];
@@ -386,9 +399,9 @@ Checks for a win by connecting  a loop around one or more cells
 					//console.log(row_col);
 					//for(var i in row_col)
 				  //console.log(cell[1],row_col[1]);
-				var neighbors= getNeighborsWithSameColor(board,cell[0],cell[1],color);
+				var neighbors= getNeighborsWithSameColor(board,cell[0],cell[1]);//,color);
 		//		console.log("NBRS=",neighbors);
-				for(nbr_cell in neighbors){
+				for(var nbr_cell in neighbors){
 // console.log("NBR_CELL=",neighbors[nbr_cell]);
 					if(neighbors[nbr_cell] in path2 ===true) {
 
@@ -441,8 +454,8 @@ Checks for a win by connecting  a loop around one or more cells
 				//  console.log(index);
 				//	var row_col = index.split(',');
 				//	console.log(row_col);
-				var nbrStash=[];
-				var prev;
+				var nbrStash : any[]=[];
+				var prev : any;
 				var xCount=0;
 				for(nbr_cell in neighbors){
 
@@ -451,7 +464,7 @@ Checks for a win by connecting  a loop around one or more cells
 						var cellN=neighbors[nbr_cell];
 						var nbr_nbr= getNeighborsWithSameColor(board,cellN[0],cellN[1]);
 					//	console.log("PREV=",prev);
-						for (ind in nbr_nbr) {
+						for (var ind in nbr_nbr) {
 				//			console.log(nbr_nbr[ind]);
 							if(angular.equals(nbr_nbr[ind],prev)) {
 							xCount++;
@@ -474,14 +487,16 @@ Checks for a win by connecting  a loop around one or more cells
 		return true;
 
 	}
-		export function getConnectedPathForRing(board : Board,row:number,col:number) {
-		var queue = [];
+		export function getConnectedPathForRing(board : Board,row:any,col:any) {
+		var queue : any[] = [];
 		queue.push([row,col]);
-		var came_from = [];
-		came_from[[row,col]]=[-1,-1];
-		var nbr=[];
+		var came_from : any[] = [];
+    var temp: any = [row,col];
+    came_from[temp] =[-1,-1];
+		//came_from[[row,col]] =[-1,-1];
+		var nbr : any[]=[];
 var count=0;
-var ret=[];
+var ret : any[]=[];
 ret.push([row,col]);
 		//Perform search in the queue for finding a path
 		while (queue.length>0) {
@@ -509,12 +524,13 @@ ret.push([row,col]);
 	}
 
 
-	export function getConnectedPath(board :Board,row:number,col:number) {
+	export function getConnectedPath(board :Board,row:any,col:any) {
 
-		var queue = [];
+		var queue : any[] = [];
 		queue.push([row,col]);
-		var came_from = [];
-		came_from[[row,col]]=[[row],[col]];
+		var came_from : any[] = [];
+    var temp : any = [row,col];
+		came_from[temp]=[[row],[col]];
 
 		//Perform search in the queue for finding a path
 		while (queue.length>0) {
@@ -545,8 +561,8 @@ ret.push([row,col]);
 	3 		y 		4
 		5 		6
 	 */
-	export function getNeighborsWithSameColor(board:Board,row:number,col:number){
-		var cells = [];
+	export function getNeighborsWithSameColor(board:Board,row:any,col:any){
+		var cells : any[] = [];
 		if(isInsideBoard(row-1,col) && board[row-1][col]!='' && (board[row-1][col] === board[row][col])) {
 			cells.push([row-1,col]);
 		}
@@ -569,8 +585,8 @@ ret.push([row,col]);
 		return cells;
 	}
 
-	function getNeighborsWithDiffColorNotZ(board:Board,row:number,col:number,color){
-		var cells = [];
+	function getNeighborsWithDiffColorNotZ(board:Board,row:any,col:any,color : any){
+		var cells : any[] = [];
 		if(isInsideBoard(row-1,col) && (board[row-1][col]!="Z") &&(board[row-1][col] != color)) {
 			cells.push([row-1,col]);
 		}
@@ -596,7 +612,7 @@ ret.push([row,col]);
 	/*
 	Check whether the row or column indexed is valid by checking if it is inside the board
 	 */
-	export function isInsideBoard(row : number, col : number){
+	export function isInsideBoard(row : any, col : any){
 
 		if(row>-1 && row<15 && col>-1 && col<15) {
 			if(col>(horIndex[row][0]-1) && col< horIndex[row][1]) {
@@ -613,15 +629,15 @@ ret.push([row,col]);
 	 * Returns all the possible moves for the given board and turnIndexBeforeMove.
 	 * Returns an empty array if the game is over.
 */
-	export function getPossibleMoves(board :Board, turnIndexBeforeMove :number) {
-		var possibleMoves =null;
-		var i, j;
-			var boardCopy ;
+	export function getPossibleMoves(board :Board, turnIndexBeforeMove :any) {
+		var possibleMoves : any =null;
+		var i : any, j : any;
+			var boardCopy : any ;
 
 		var rowInd = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14];
 
-		var shuffleArray = function(array) {
-			  var m = array.length, t, i;
+		var shuffleArray = function(array : any) {
+			  var m = array.length, t : any, i : any;
 
 			  // While there remain elements to shuffle
 			  while (m) {
@@ -657,21 +673,22 @@ ret.push([row,col]);
 
 
 
-	return {
+	// return {
+  //
+	// 	getPossibleMoves: getPossibleMoves,
+	// 	setBoard: setBoard,
+	// 	createMove: createMove,
+	// 	isMoveOk: isMoveOk,
+	// 	isTie : isTie,
+	// 	isInsideBoard : isInsideBoard,
+	// 	getConnectedPath : getConnectedPath,
+	// 	getConnectedPathForRing : getConnectedPathForRing,
+	// 	getNeighborsWithSameColor : getNeighborsWithSameColor,
+	// 	getBridgeWin : getBridgeWin,
+	// 	getForkWin : getForkWin,
+	// 	getRingWin : getRingWin,
+	// 	getWinner : getWinner
+	// };
 
-		getPossibleMoves: getPossibleMoves,
-		setBoard: setBoard,
-		createMove: createMove,
-		isMoveOk: isMoveOk,
-		isTie : isTie,
-		isInsideBoard : isInsideBoard,
-		getConnectedPath : getConnectedPath,
-		getConnectedPathForRing : getConnectedPathForRing,
-		getNeighborsWithSameColor : getNeighborsWithSameColor,
-		getBridgeWin : getBridgeWin,
-		getForkWin : getForkWin,
-		getRingWin : getRingWin,
-		getWinner : getWinner
-	};
-
-});
+// });
+}
