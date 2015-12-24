@@ -15,6 +15,9 @@ var game;
     var delta;
     var x;
     var y;
+    var rowsNum;
+    var colsNum;
+    var gameArea;
     function init() {
         console.log("Translation of 'RULES_OF_HAVANNAH' is " + translate('RULES_OF_HAVANNAH'));
         resizeGameAreaService.setWidthToHeight(1);
@@ -51,17 +54,17 @@ var game;
         return {}; // no style
     }
     game.getStyle = getStyle;
-    var draggingLines = document.getElementById("draggingLines");
-    var horizontalDraggingLine = document.getElementById("horizontalDraggingLine");
-    var verticalDraggingLine = document.getElementById("verticalDraggingLine");
-    //  var clickToDragPiece = document.getElementById("clickToDragPiece");
-    var gameArea = document.getElementById("gameArea");
-    var rowsNum = 15;
-    var colsNum = 15;
-    //window.handleDragEvent = handleDragEvent;
-    //  dragAndDropService.addDragListener("gameArea", handleDragEvent);
     function handleDragEvent(type, clientX, clientY) {
         // Center point in gameArea
+        var draggingLines = document.getElementById("draggingLines");
+        var horizontalDraggingLine = document.getElementById("horizontalDraggingLine");
+        var verticalDraggingLine = document.getElementById("verticalDraggingLine");
+        //  var clickToDragPiece = document.getElementById("clickToDragPiece");
+        gameArea = document.getElementById("gameArea");
+        rowsNum = 15;
+        colsNum = 15;
+        //window.handleDragEvent = handleDragEvent;
+        //  dragAndDropService.addDragListener("gameArea", handleDragEvent);
         x = clientX - gameArea.offsetLeft;
         y = clientY - gameArea.offsetTop;
         console.log(x, y, clientX, clientY, gameArea.clientWidth, gameArea.clientHeight);
@@ -436,5 +439,14 @@ angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
         RULES_SLIDE5: "A fork, which connects any three edges of the board; corner points are not considered parts of an edge.",
         CLOSE: "Close"
     });
+    // translate.setLanguage('fr',  {
+    //   RULES_OF_HAVANNAH:"Règles de Havannah",
+    //   RULES_SLIDE1:"Chaque tour, un joueur met une pierre sur la carte",
+    //   RULES_SLIDE2:"Un joueur gagne quand ils finissent un de trois structures de pierres liees, comme suit:",
+    //   RULES_SLIDE3:"Un anneau de pierres autour au moins une cellule,",
+    //   RULES_SLIDE4:"Une ligne entre deux coins,",
+    //   RULES_SLIDE5:"Une fourchette, reliant trois cotes; les coins n'est pas un coin.",
+    //   CLOSE:"Close"
+    // });
     game.init();
 });
