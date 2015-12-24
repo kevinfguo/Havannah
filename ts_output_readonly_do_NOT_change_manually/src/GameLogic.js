@@ -22,14 +22,15 @@ var gameLogic;
      *  13             x x x x x x x x x
      *  14               x x x x x x x x
      */
-    Array.prototype.contains = function (k) {
+    function contains(k) {
         for (var i = 0; i < this.length; i++) {
             if (this[i] == k) {
                 return true;
             }
         }
         return false;
-    };
+    }
+    gameLogic.contains = contains;
     //	the boundary of horizontal direction
     var horIndex = [[0, 8], [0, 9], [0, 10], [0, 11], [0, 12], [0, 13], [0, 14], [0, 15],
         [1, 15], [2, 15], [3, 15], [4, 15], [5, 15], [6, 15], [7, 15]];

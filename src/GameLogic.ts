@@ -35,7 +35,7 @@ module gameLogic{
 	 *  13             x x x x x x x x x
 	 *  14               x x x x x x x x
 	 */
-Array.prototype.contains = function(k : any) {
+ export function contains (k : any) {
   for(var i=0; i < this.length; i++){
     if(this[i] == k){
       return true;

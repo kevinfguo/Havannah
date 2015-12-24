@@ -1,16 +1,37 @@
-angular.module('myApp')
+// angular.module('myApp')
+//
+//   .controller('Ctrl',
+//       ['$scope', '$rootScope','$log', '$timeout',
+//        'gameLogic',
+//       function ($scope : any, $rootScope : any, $log : any, $timeout : any,
+//         gameLogic : any) {
 
-  .controller('Ctrl',
-      ['$scope', '$rootScope','$log', '$timeout',
-       'gameLogic',
-      function ($scope : any, $rootScope : any, $log : any, $timeout : any,
-        gameLogic : any) {
-
+module game{
     'use strict';
 
-    resizeGameAreaService.setWidthToHeight(1);
+    var board : any;
+    var isYourTurn : any;
+    var msg : any;
+    var turnIndex : any;
+    var delta : any;
+    var x : any;
+    var y: any;
 
- 	$scope.numbersTo=      function numbersTo(start : any,end : any) : any[]{
+    export function init() {
+      console.log("Translation of 'RULES_OF_HAVANNAH' is " + translate('RULES_OF_HAVANNAH'));
+      resizeGameAreaService.setWidthToHeight(1);
+      gameService.setGame({
+        minNumberOfPlayers: 2,
+        maxNumberOfPlayers: 2,
+        isMoveOk: gameLogic.isMoveOk,
+        updateUI: updateUI
+      });
+
+      // See http://www.sitepoint.com/css3-animation-javascript-event-handlers/
+      dragAndDropService.addDragListener("gameArea", handleDragEvent);
+    }
+
+ 	export function numbersTo(start : any,end : any) : any[]{
         var res : any = [];
         for (var i=start; i<end; i++) {
           res[i] = i;
@@ -19,8 +40,8 @@ angular.module('myApp')
         return res;
       }
 
- 	  $scope.getStyle = function (row : any, col : any) :any {
- 	        var cell = $scope.board[row][col];
+ 	  export function getStyle (row : any, col : any) :any {
+ 	        var cell = board[row][col];
  	        if (cell === 'R') {
  	            return {
  	                "-webkit-animation": "moveAnimation 2s",
@@ -42,13 +63,13 @@ angular.module('myApp')
      var rowsNum = 15;
      var colsNum = 15;
      //window.handleDragEvent = handleDragEvent;
-     dragAndDropService.addDragListener("gameArea", handleDragEvent);
+    //  dragAndDropService.addDragListener("gameArea", handleDragEvent);
 
      function handleDragEvent(type : any, clientX : any, clientY : any) {
        // Center point in gameArea
 
-       var x = clientX - gameArea.offsetLeft;
-       var y = clientY - gameArea.offsetTop;
+       x = clientX - gameArea.offsetLeft;
+       y = clientY - gameArea.offsetTop;
        console.log(x,y,clientX,clientY,gameArea.clientWidth,gameArea.clientHeight);
        // Is outside gameArea?
        if (x < 0 || y < 0 || x >= gameArea.clientWidth || y >= gameArea.clientHeight) {
@@ -203,12 +224,12 @@ function getColumn(row : any,col : any) {
 //
 
     function sendComputerMove() {
-      var possMove = gameLogic.getPossibleMoves($scope.board,$scope.turnIndex);
+      var possMove = gameLogic.getPossibleMoves(board,turnIndex);
 //      console.log('Possible Moves=',possMoves);
 //     var randomNo = Math.floor(Math.random()*possMoves.length);
     // console.log('random move=',  possMoves[randomNo]);
     while(possMove==null) {
-      possMove = gameLogic.getPossibleMoves($scope.board,$scope.turnIndex);
+      possMove = gameLogic.getPossibleMoves(board,turnIndex);
      }
      gameService.makeMove(possMove);
 
@@ -219,7 +240,7 @@ function getColumn(row : any,col : any) {
     }
 
     function updateUI(params : any) {
-      $scope.board = params.stateAfterMove.board;
+      board = params.stateAfterMove.board;
       var move = params.move;
      /* $scope.delta = params.stateBeforeMove;
       var row = $scope.delta.row;
@@ -249,18 +270,18 @@ var deltaValue = move[2].set.value;
       else
           pieceB.className = 'enlarge1';
 } catch (e) {}*/
-      if ($scope.board === undefined) {
-        $scope.board = gameLogic.setBoard();
+      if (board === undefined) {
+        board = gameLogic.setBoard();
       }
-      $scope.isYourTurn = params.turnIndexAfterMove >= 0 && // game is ongoing
+        isYourTurn = params.turnIndexAfterMove >= 0 && // game is ongoing
         params.yourPlayerIndex === params.turnIndexAfterMove; // it's my turn
-      $scope.turnIndex = params.turnIndexAfterMove;
+        turnIndex = params.turnIndexAfterMove;
 
       // Is it the computer's turn?
-      if ($scope.isYourTurn &&
+      if (isYourTurn &&
           params.playersInfo[params.yourPlayerIndex].playerId === '') {
         console.log('computer turn');
-        $scope.isYourTurn = false; // to make sure the UI won't send another move.
+        isYourTurn = false; // to make sure the UI won't send another move.
         // Waiting 0.5 seconds to let the move animation finish; if we call aiService
         // then the animation is paused until the javascript finishes.
         $timeout(sendComputerMove, 500);
@@ -374,56 +395,72 @@ function hexProjection(radius) {
   };
 }
 */
-    $scope.cellClicked = function (row : any, col : any) {
-      $log.info(["Clicked on cell:", row, col]);
+    export function cellClicked(row : any, col : any) {
+      log.info(["Clicked on cell:", row, col]);
       if (window.location.search === '?throwException') { // to test encoding a stack trace with sourcemap
         throw new Error("Throwing the error because URL has '?throwException'");
       }
-      if (!$scope.isYourTurn) {
+      if (!isYourTurn) {
         return;
       }
       try {
-        var move = gameLogic.createMove($scope.board, row, col, $scope.turnIndex);
-        $scope.isYourTurn = false; // to prevent making another move
+        var move = gameLogic.createMove(board, row, col, turnIndex);
+        isYourTurn = false; // to prevent making another move
         gameService.makeMove(move);
       } catch (e) {
-        $log.info(["Cell is already full in position:", row, col,e]);
+        log.info(["Cell is already full in position:", row, col,e]);
         return;
       }
     };
     function dragDone(row : any, col : any) {
         $rootScope.$apply(function () {
           var msg = "Dragged to " + row + "x" + col;
-          $log.info(msg);
-          $scope.msg = msg;
-          $scope.cellClicked(row, col);
+          log.info(msg);
+          msg = msg;
+          cellClicked(row, col);
         });
       }
 
-    $scope.shouldShowImage = function (row : any, col : any) {
-      var cell = $scope.board[row][col];
+    export function shouldShowImage(row : any, col : any) {
+      var cell = board[row][col];
       return cell !== "";
     };
-    $scope.isPieceR = function (row : any, col : any) {
-        return $scope.board[row][col] === 'R';
+    export function isPieceR(row : any, col : any) {
+        return board[row][col] === 'R';
       };
-      $scope.isPieceB = function (row : any, col : any) {
-        return $scope.board[row][col] === 'B';
+      export function isPieceB(row : any, col : any) {
+        return board[row][col] === 'B';
       };
-    $scope.getImageSrc = function (row : any, col : any) {
-      var cell = $scope.board[row][col];
+    export function getImageSrc(row : any, col : any) {
+      var cell = board[row][col];
       return cell === "R" ? "imgs/P.png"
           : cell === "B" ? "imgs/B.png" : "";
     };
-    $scope.shouldSlowlyAppear = function (row : any, col : any) {
-      return $scope.delta !== undefined &&
-          $scope.delta.row === row && $scope.delta.col === col;
+    export function shouldSlowlyAppear(row : any, col : any) {
+      return delta !== undefined &&
+          delta.row === row && delta.col === col;
     };
 
-    gameService.setGame({
-      minNumberOfPlayers: 2,
-      maxNumberOfPlayers: 2,
-      isMoveOk: gameLogic.isMoveOk,
-      updateUI: updateUI
-    });
-  }]);
+  //   gameService.setGame({
+  //     minNumberOfPlayers: 2,
+  //     maxNumberOfPlayers: 2,
+  //     isMoveOk: gameLogic.isMoveOk,
+  //     updateUI: updateUI
+  //   });
+  // }]);
+}
+
+angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
+  .run(function () {
+  $rootScope['game'] = game;
+  translate.setLanguage('en',  {
+    RULES_OF_HAVANNAH:"Rules of Havannah",
+    RULES_SLIDE1:"Each player places one stone of their color on the board per turn.",
+    RULES_SLIDE2:"A player wins when they complete one of three different structures from unbroken lines, or paths, of connected stones, all of their colour:",
+    RULES_SLIDE3:"A ring is a loop around one or more cells (no matter whether the encircled cells are occupied by any player or empty",
+    RULES_SLIDE4:"A bridge, which connects any two of the six corner cells of the board; or",
+    RULES_SLIDE5:"A fork, which connects any three edges of the board; corner points are not considered parts of an edge.",
+    CLOSE:"Close"
+  });
+  game.init();
+});
