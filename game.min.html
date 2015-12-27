@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="myApp" ng-strict-di manifest="game.appcache">
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,7 +19,7 @@
 
 
     <script>window.angularTranslationLanguages = ['en', 'hn'];</script>
- <script src="http://yoav-zibin.github.io/emulator/dist/turnBasedServices.2.min.js"></script>
+ <script src="http://yoav-zibin.github.io/emulator/dist/turnBasedServices.3.min.js"></script>
 
 
   <link rel="stylesheet" type="text/css" href="http://yoav-zibin.github.io/emulator/main.css">
@@ -28,18 +27,18 @@
 
 
 </head>
-<body ng-cloak ng-controller="Ctrl" bg-color=black>
+<body ng-cloak bg-color=black>
   <div style="position:absolute; top:5px; left: 5px; z-index:10">
-    <span ng-click="isHelpModalShown = true"
+    <span ng-click="game.isHelpModalShown = true"
         class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
   </div>
 
- <div class="overlayModal" ng-class="{zeroOpacity: !isHelpModalShown, oneOpacity: isHelpModalShown}" aria-hidden="true">
+ <div class="overlayModal" ng-class="{zeroOpacity: !game.isHelpModalShown, oneOpacity: game.isHelpModalShown}" aria-hidden="true">
     <div class="modal-backdrop in"></div>
     <div class="modal-dialog">
      <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" ng-click="isHelpModalShown = false" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <button type="button" class="close" ng-click="game.isHelpModalShown = false" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="myModalLabel">
             {{ 'RULES_OF_HAVANNAH' | translate }}
           </h4>
@@ -50,7 +49,7 @@
               <table>
                 <tr>
                   <td>
-                    {{ 'RULES_SLIDE1' | translate }}
+                    {{ 'RULES_SLIDE1' | translate}}
                   </td>
                   <td>
                     <img src="imgs/slide1.jpg" style="height:100px;">
@@ -62,7 +61,7 @@
               <table>
                 <tr>
                   <td>
-                  {{ 'RULES_SLIDE2' | translate }}
+                  {{ 'RULES_SLIDE2' | translate}}
                   </td>
                   <td>
 
@@ -74,7 +73,7 @@
               <table>
                 <tr>
                   <td>
-                    {{ 'RULES_SLIDE3' | translate }}
+                    {{ 'RULES_SLIDE3' | translate}}
                   </td>
                   <td>
                     <img src="imgs/slide3.jpg" style="height:100px;">
@@ -86,7 +85,7 @@
               <table>
                 <tr>
                   <td>
-                    {{ 'RULES_SLIDE4' | translate }}
+                    {{ 'RULES_SLIDE4' | translate}}
                   </td>
                   <td>
                     <img src="imgs/slide4.jpg" style="height:100px;">
@@ -98,7 +97,7 @@
               <table>
                 <tr>
                   <td>
-                    {{ 'RULES_SLIDE5' | translate }}
+                    {{ 'RULES_SLIDE5' | translate}}
                   </td>
                   <td>
                     <img src="imgs/slide5.jpg" style="height:100px;">
@@ -109,8 +108,8 @@
           </carousel>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" ng-click="isHelpModalShown = false">
-            {{ 'CLOSE' | translate }}
+          <button type="button" class="btn btn-primary" ng-click="game.isHelpModalShown = false">
+            {{ 'CLOSE' }}
           </button>
         </div>
       </div>
@@ -135,14 +134,14 @@
             stroke="black"
             stroke-width="0.5%"/>
     </svg>
-    <div ng-repeat="row in numbersTo(0,8)">
-      <div class="cell" ng-repeat="col in numbersTo(0,8 + row)" >
+    <div ng-repeat="row in game.numbersTo(0,8)">
+      <div class="cell" ng-repeat="col in game.numbersTo(0,8 + row)" >
         <img   style="position:absolute; left:{{7*col + (6 - row) * (5 - 6/4) }}%; top:{{6.6 * row}}%;  width:8%; height:8%;" src="imgs/hexagon2.png" >
-     <div   ng-style="getStyle(row, col)" id="{{'e2e_test_div_' + row + 'x' + col}}" style="position:absolute; left:{{7*col + (6.3 - row) * (5 - 6/4) }}%; top:{{6.6 * row+1.5}}%; width:5.5%; height:5.5%;" ng-click="cellClicked(row,col)"   >
-    <img class="enlarge0" style="position:absolute;" ng-class="{piece: true, slowlyAppear: shouldSlowlyAppear(row,col)}"  ng-show="isPieceR(row,col)"  ng-show="shouldShowImage(row,col)"    ng-src="{{getImageSrc(row,col)}}"
+     <div   ng-style="game.getStyle(row, col)" id="{{'e2e_test_div_' + row + 'x' + col}}" style="position:absolute; left:{{7*col + (6.3 - row) * (5 - 6/4) }}%; top:{{6.6 * row+1.5}}%; width:5.5%; height:5.5%;" ng-click="game.cellClicked(row,col)"   >
+    <img class="enlarge0" style="position:absolute;" ng-class="{piece: true, slowlyAppear: game.shouldSlowlyAppear(row,col)}"  ng-show="game.isPieceR(row,col)"  ng-show="game.shouldShowImage(row,col)"    ng-src="{{game.getImageSrc(row,col)}}"
             id="{{'e2e_test_pieceR_' + row + 'x' + col}}"  >
 
-   <img class="enlarge1" style="position:absolute;" ng-class="{piece: true, slowlyAppear: shouldSlowlyAppear(row,col)}" ng-show="isPieceB(row,col)"  ng-show="shouldShowImage(row,col)"    ng-src="{{getImageSrc(row,col)}}"
+   <img class="enlarge1" style="position:absolute;" ng-class="{piece: true, slowlyAppear: game.shouldSlowlyAppear(row,col)}" ng-show="game.isPieceB(row,col)"  ng-show="game.shouldShowImage(row,col)"    ng-src="{{game.getImageSrc(row,col)}}"
             id="{{'e2e_test_pieceB_' + row + 'x' + col }}"  >
                 </div>
     </div>
@@ -150,14 +149,14 @@
 
 
 
-    <div ng-repeat="row in numbersTo(0,7) ">
-      <div  ng-repeat="col in numbersTo(0,(14-row)) " >
+    <div ng-repeat="row in game.numbersTo(0,7) ">
+      <div  ng-repeat="col in game.numbersTo(0,(14-row)) " >
         <img id="clickToDragPiece" style="position:absolute; top:{{6.6 * row + 53}}%; left:{{7*col + ( row) * (5 - 6/4) }}%; width:8%; height:8%;" src="imgs/hexagon2.png">
-        <div   id="{{'e2e_test_div_' + (row+8) + 'x' + (row+1+col)}}" style="position:absolute; top:{{6.6 * row + 54}}%; left:{{7*col + ( 0.35+row) * (5 - 6/4) }}%; width:5.5%; height:5.5%;" ng-click="cellClicked((row+8),(col+row+1))" >
-    <img class="enlarge0"style="position:absolute;" ng-class="{piece: true, slowlyAppear: shouldSlowlyAppear((row+8), (row+1+col))}"  ng-show="isPieceR((row+8), (row+1+col))"  ng-show="shouldShowImage((row+8), (row+1+col))"    ng-src="{{getImageSrc((row+8), (row+col+1))}}"
+        <div   id="{{'e2e_test_div_' + (row+8) + 'x' + (row+1+col)}}" style="position:absolute; top:{{6.6 * row + 54}}%; left:{{7*col + ( 0.35+row) * (5 - 6/4) }}%; width:5.5%; height:5.5%;" ng-click="game.cellClicked((row+8),(col+row+1))" >
+    <img class="enlarge0"style="position:absolute;" ng-class="{piece: true, slowlyAppear: game.shouldSlowlyAppear((row+8), (row+1+col))}"  ng-show="game.isPieceR((row+8), (row+1+col))"  ng-show="game.shouldShowImage((row+8), (row+1+col))"    ng-src="{{game.getImageSrc((row+8), (row+col+1))}}"
             id="{{'e2e_test_pieceR_' + (row+8) + 'x' + (row+col+1)}}"  >
 
-   <img class="enlarge1" style="position:absolute;" ng-class="{piece: true, slowlyAppear: shouldSlowlyAppear((row+8), (row+1+col))}" ng-show="isPieceB((row+8), (row+1+col))"  ng-show="shouldShowImage((row+8), (row+1+col))"    ng-src="{{getImageSrc((row+8), (row+col+1))}}"
+   <img class="enlarge1" style="position:absolute;" ng-class="{piece: true, slowlyAppear: game.shouldSlowlyAppear((row+8), (row+1+col))}" ng-show="game.isPieceB((row+8), (row+1+col))"  ng-show="game.shouldShowImage((row+8), (row+1+col))"    ng-src="{{game.getImageSrc((row+8), (row+col+1))}}"
             id="{{'e2e_test_pieceB_' + (row+8) + 'x' + (row+col+1)}}"  >
           </div>
     </div>

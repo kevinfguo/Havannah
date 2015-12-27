@@ -55,8 +55,10 @@ module.exports = function(grunt) {
         separator: ';',
       },
       dist: {
-        // Order is important! gameLogic.js must be first because it defines myApp angular module.
-        src: ['src/GameLogic.js', 'src/game.js', 'src/aiService.js'],
+        src: [
+          'ts_output_readonly_do_NOT_change_manually/src/gameLogic.js',
+          'ts_output_readonly_do_NOT_change_manually/src/game.js',
+          'ts_output_readonly_do_NOT_change_manually/src/aiService.js'],
         dest: 'dist/everything.js',
       },
     },
@@ -84,17 +86,17 @@ module.exports = function(grunt) {
           cache: [
             'http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js',
             'http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-touch.min.js',
-'http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.min.js',
-'http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css',
-'http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/fonts/glyphicons-halflings-regular.woff',
-'http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/fonts/glyphicons-halflings-regular.ttf',
+            'http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.min.js',
+            'http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css',
+            'http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/fonts/glyphicons-halflings-regular.woff',
+            'http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/fonts/glyphicons-halflings-regular.ttf',
             'dist/everything.min.js',
             'game.css',
-            'http://yoav-zibin.github.io/emulator/dist/turnBasedServices.2.min.js',
-            'imgs/slide1.jpg', 'imgs/slide3.jpg','imgs/slide4.jpg','imgs/slide5.jpg', 'imgs/hexagon2.png', 'imgs/P.png', 'imgs/B.png', 
-            'http://yoav-zibin.github.io/emulator/main.css', 
+            'http://yoav-zibin.github.io/emulator/dist/turnBasedServices.3.min.js',
+            'imgs/slide1.jpg', 'imgs/slide3.jpg','imgs/slide4.jpg','imgs/slide5.jpg', 'imgs/hexagon2.png', 'imgs/P.png', 'imgs/B.png',
+            'http://yoav-zibin.github.io/emulator/main.css',
             'languages/en.js','languages/hn.js'
-            
+
           ],
           network: ['languages/en.js','languages/hn.js','dist/everything.min.js.map', 'dist/everything.js'],
           timestamp: true
